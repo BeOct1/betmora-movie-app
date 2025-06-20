@@ -1,76 +1,72 @@
-// controllers/authController.js
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { check, validationResult } = require('express-validator');
-// Middleware to validate user input
-exports.validateUserInput = [
-  check('username').notEmpty().withMessage('Username is required'),
-  check('email').isEmail().withMessage('Valid email is required'),
-  check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
-];
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
-exports.registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
-
-  try {
-    // Check if user exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ message: 'User already exists' });
-
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create user
-    const user = new User({ username, email, password: hashedPassword });
-    await user.save();
-
-    res.status(201).json({ message: 'User registered successfully ✅' });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong ❌', error: err.message });
-  }
+const createToken = (userId) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '7d' });
 };
 
-exports.loginUser = async (req, res) => {
+export const registerUser = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password)
+    return res.status(400).json({ message: 'All fields are required' });
+
+  const existingUser = await User.findOne({ email });
+  if (existingUser)
+    return res.status(400).json({ message: 'User already exists' });
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+  });
+
+  const token = createToken(user._id);
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
+
+  res.status(201).json({ user: { name: user.name, email: user.email } });
+};
+
+export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  try {
-    // Check user
-    const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+  const user = await User.findOne({ email });
+  if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-    // Check password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    // Generate JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' });
+  const token = createToken(user._id);
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
 
-    res.status(200).json({
-      message: 'Login successful ✅',
-      token,
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong ❌', error: err.message });
-  }
+  res.status(200).json({ user: { name: user.name, email: user.email } });
 };
 
-const jwt = require('jsonwebtoken');
-// Middleware to authenticate user
-exports.authenticateUser = async (req, res, next) =>
-exports.getUserProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id).select('-password');
-    if (!user) return res.status(404).json({ message: 'User not found' });
+export const logoutUser = (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'None',
+  });
+  res.json({ message: 'Logged out' });
+};
 
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json({ message: 'Something went wrong ❌', error: err.message });
-  }
+export const getCurrentUser = async (req, res) => {
+  const user = await User.findById(req.userId);
+  if (!user) return res.status(401).json({ message: 'Unauthorized' });
+
+  res.json({ name: user.name, email: user.email });
 };

@@ -1,18 +1,26 @@
 // middleware/authMiddleware.js
+// This middleware checks if the user is authenticated by verifying a JWT token stored in cookies.
+// If the token is valid, it attaches the user ID to the request object; otherwise,
+
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+import dotenv from 'dotenv';
+dotenv.config();
+
 const jwt = require('jsonwebtoken');
 
-const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Bearer token
-
-  if (!token) return res.status(401).json({ message: 'Access denied. No token provided.' });
+const authMiddleware = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).json({ message: 'No token, access denied' });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Add user ID to request
+    req.userId = decoded.userId;
     next();
   } catch (err) {
-    res.status(401).json({ message: 'Invalid or expired token' });
+    return res.status(401).json({ message: 'Invalid token' });
   }
 };
 
-module.exports = verifyToken;
+export default authMiddleware;
+
