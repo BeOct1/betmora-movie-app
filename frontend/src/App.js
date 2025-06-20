@@ -1,7 +1,11 @@
 // src/App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AppRouter from './AppRouter';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+// If you have a NotificationProvider, import it. Otherwise, use a placeholder.
+// import NotificationProvider from './context/NotificationProvider';
+const NotificationProvider = ({ children }) => children; // Remove this if you have the real provider
 
 function Dashboard() {
   return <h2>Welcome to 🎬 Betmora </h2>;
@@ -13,6 +17,9 @@ function PrivateRoute({ children }) {
 }
 
 function App() {
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+
   return (
     <GoogleOAuthProvider clientId="240218761531-6c18rp9326jmdl5ebvhm3g4mnkcjaia3.apps.googleusercontent.com">
       <NotificationProvider>
