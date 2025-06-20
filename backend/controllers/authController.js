@@ -27,8 +27,8 @@ export const registerUser = async (req, res) => {
   const token = createToken(user._id);
   res.cookie('token', token, {
     httpOnly: true,
-    secure: true,
-    sameSite: 'None',
+    secure: false, // Changed for local development
+    sameSite: 'Lax', // Changed for local development
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
@@ -47,8 +47,8 @@ export const loginUser = async (req, res) => {
   const token = createToken(user._id);
   res.cookie('token', token, {
     httpOnly: true,
-    secure: true,
-    sameSite: 'None',
+    secure: false, // Changed for local development
+    sameSite: 'Lax', // Changed for local development
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
@@ -58,8 +58,8 @@ export const loginUser = async (req, res) => {
 export const logoutUser = (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: true,
-    sameSite: 'None',
+    secure: false, // Changed for local development
+    sameSite: 'Lax', // Changed for local development
   });
   res.json({ message: 'Logged out' });
 };
