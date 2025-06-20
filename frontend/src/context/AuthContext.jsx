@@ -45,12 +45,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    try {
-      await API.post('/auth/logout');
-      setUser(null);
-    } catch (err) {
-      console.error(err);
-    }
+    await API.post('/auth/logout');
+    setUser(null);
   };
 
   return (

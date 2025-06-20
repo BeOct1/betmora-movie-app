@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext';
+import { useAuth } from './context/AuthContext.jsx';
 
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Home from './pages/Home';
-import Search from './pages/Search';
-import Watchlist from './pages/Watchlist';
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx';
+import Home from './pages/Home.jsx';
+import Search from './pages/Search.jsx';
+import Watchlist from './pages/Watchlist.jsx';
 
 const AppRouter = () => {
     const { user } = useAuth();

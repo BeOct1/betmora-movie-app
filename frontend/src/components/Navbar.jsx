@@ -1,7 +1,7 @@
-// src/components/Navbar.js
+// src/components/Navbar.jsx
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext.jsx';
 import axios from 'axios';
 import '../styles/styles.css';
 
