@@ -1,11 +1,4 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-
-export default function App() {
-    return (
-        <Routes>
-            <Route path="/" element={<div>Hello from Betmora</div>} />
-        </Routes>
-    );
-}
+// This file has been intentionally removed.
+// Please use App.js as your main App component entry point.
+// If you need to restore this file, check your version control history or contact your project maintainer.
 
