@@ -7,8 +7,6 @@ import User from '../models/User.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const jwt = require('jsonwebtoken');
-
 const authMiddleware = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: 'No token, access denied' });

@@ -15,8 +15,6 @@ import mongoose from 'mongoose';
 // The timestamps option automatically adds createdAt and updatedAt fields to the schema, which are useful for tracking when a user was created and last updated.
 // This schema is part of the backend codebase, specifically for managing user data in a movie-related application.
 // It is designed to work with Mongoose, a popular ODM (Object Data Modeling) library for MongoDB and Node.js.
-const mongoose = require('mongoose');
-
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
