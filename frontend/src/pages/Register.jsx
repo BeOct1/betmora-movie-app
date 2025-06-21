@@ -14,7 +14,7 @@ const Register = () => {
         e.preventDefault();
         if (!name || !email || !password) return alert('All fields are required');
         await register(name, email, password);
-        navigate('/dashboard');
+        navigate('/'); // Changed from /dashboard to /
     };
 
     return (

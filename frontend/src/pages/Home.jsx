@@ -10,7 +10,7 @@ const Home = () => {
     <div className="home-container">
       <nav className="navbar">
         <div className="nav-links">
-          <Link to="/home">Home</Link>
+          <Link to="/">Home</Link>
           <Link to="/search">Search</Link>
           <Link to="/watchlist">Watchlist</Link>
         </div>

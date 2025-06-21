@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     if (!email || !password) return alert('All fields are required');
     await login(email, password);
-    navigate('/dashboard');
+    navigate('/'); // Changed from /dashboard to /
   };
 
   return (
