@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import API from '../api';
-import MovieCard from '../components/MovieCard';
+//import MovieCard from '../components/MovieCard';
+import MovieCard from '../components/MovieCard.jsx';
 import '../styles/styles.css'; // Ensure you have the correct path to your CSS file
 
 

@@ -1,10 +1,9 @@
+// Navbar.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import '../styles/styles.css'; // Ensure you have the correct path to your CSS file 
 import axios from 'axios';
-// Ensure you have axios installed and configured for your API requests
-// If you have a different API setup, adjust the import accordingly
 
 const Navbar = () => {
     const { user, logout } = useAuth();

@@ -15,7 +15,10 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: [process.env.CLIENT_URL, 'http://localhost:3000'], // For local development
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+  exposedHeaders: 'Set-Cookie',
   credentials: true,
 }));
 app.use(express.json());
