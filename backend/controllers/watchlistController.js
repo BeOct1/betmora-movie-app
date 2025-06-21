@@ -1,6 +1,6 @@
-const Watchlist = require('../models/Watchlist');
+import Watchlist from '../models/Watchlist.js';
 
-exports.addToWatchlist = async (req, res) => {
+export const addToWatchlist = async (req, res) => {
     const { tmdbId, title, poster } = req.body;
 
     if (!tmdbId || !title) {
@@ -24,7 +24,7 @@ exports.addToWatchlist = async (req, res) => {
     }
 };
 
-exports.getWatchlist = async (req, res) => {
+export const getWatchlist = async (req, res) => {
     try {
         const watchlist = await Watchlist.find({ user: req.user._id });
         res.json({ watchlist });
@@ -33,7 +33,7 @@ exports.getWatchlist = async (req, res) => {
     }
 };
 
-exports.removeFromWatchlist = async (req, res) => {
+export const removeFromWatchlist = async (req, res) => {
     try {
         await Watchlist.findOneAndDelete({
             user: req.user._id,
@@ -45,7 +45,7 @@ exports.removeFromWatchlist = async (req, res) => {
     }
 };
 
-exports.clearWatchlist = async (req, res) => {
+export const clearWatchlist = async (req, res) => {
     try {
         await Watchlist.deleteMany({ user: req.user._id });
         res.json({ message: 'Watchlist cleared' });
