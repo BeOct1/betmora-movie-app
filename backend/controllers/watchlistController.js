@@ -1,29 +1,56 @@
-import User from '../models/User.js';
+const Watchlist = require('../models/Watchlist');
 
-export const getWatchlist = async (req, res) => {
-    const user = await User.findById(req.userId);
-    res.json(user.watchlist);
+exports.addToWatchlist = async (req, res) => {
+    const { tmdbId, title, poster } = req.body;
+
+    if (!tmdbId || !title) {
+        return res.status(400).json({ message: 'Missing TMDB ID or title' });
+    }
+
+    try {
+        const exists = await Watchlist.findOne({ user: req.user._id, tmdbId });
+        if (exists) return res.status(400).json({ message: 'Already in watchlist' });
+
+        const movie = await Watchlist.create({
+            user: req.user._id,
+            tmdbId,
+            title,
+            poster,
+        });
+
+        res.status(201).json({ movie });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to add to watchlist' });
+    }
 };
 
-export const addToWatchlist = async (req, res) => {
-    const user = await User.findById(req.userId);
-
-    const exists = user.watchlist.find(movie => movie.id === req.body.id);
-    if (exists) return res.status(400).json({ message: 'Already in watchlist' });
-
-    user.watchlist.push(req.body);
-    await user.save();
-
-    res.status(201).json({ message: 'Added to watchlist' });
+exports.getWatchlist = async (req, res) => {
+    try {
+        const watchlist = await Watchlist.find({ user: req.user._id });
+        res.json({ watchlist });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to fetch watchlist' });
+    }
 };
 
-export const removeFromWatchlist = async (req, res) => {
-    const user = await User.findById(req.userId);
-
-    user.watchlist = user.watchlist.filter(movie => movie.id !== parseInt(req.params.movieId));
-    await user.save();
-
-    res.json({ message: 'Removed from watchlist' });
+exports.removeFromWatchlist = async (req, res) => {
+    try {
+        await Watchlist.findOneAndDelete({
+            user: req.user._id,
+            tmdbId: req.params.id,
+        });
+        res.json({ message: 'Removed from watchlist' });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to remove from watchlist' });
+    }
 };
-// This code defines the watchlist controller for managing a user's movie watchlist.
-// It includes functions to get the watchlist, add a movie to the watchlist, and
+
+exports.clearWatchlist = async (req, res) => {
+    try {
+        await Watchlist.deleteMany({ user: req.user._id });
+        res.json({ message: 'Watchlist cleared' });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to clear watchlist' });
+    }
+};
+

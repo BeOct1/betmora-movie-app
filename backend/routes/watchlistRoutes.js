@@ -1,19 +1,14 @@
-import express from 'express';
-import authMiddleware from '../middleware/authMiddleware.js';
-import {
-    getWatchlist,
-    addToWatchlist,
-    removeFromWatchlist
-} from '../controllers/watchlistController.js';
-
+const express = require('express');
 const router = express.Router();
+const {
+    addToWatchlist,
+    getWatchlist,
+    removeFromWatchlist,
+} = require('../controllers/watchlist.controller');
+const { protect } = require('../middleware/auth');
 
-router.use(authMiddleware);
+router.post('/', protect, addToWatchlist);
+router.get('/', protect, getWatchlist);
+router.delete('/:id', protect, removeFromWatchlist);
 
-router.get('/', getWatchlist);
-router.post('/', addToWatchlist);
-router.delete('/:movieId', removeFromWatchlist);
-
-export default router;
-// watchlistRoutes.js
-// This code defines the routes for managing a user's watchlist in a movie application.
+module.exports = router;
