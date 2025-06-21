@@ -6,7 +6,7 @@ import Search from './pages/Search';
 import Watchlist from './pages/Watchlist';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import { useAuth } from './context/AuthContext';
+import { useAuth } from './context/AuthContext.jsx';
 
 const App = () => {
   const { user } = useAuth();
