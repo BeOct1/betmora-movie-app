@@ -1,23 +1,15 @@
-/* Reset and base layout */
+/* General reset */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background: #f5f5f5;
+    padding: 0;
+    background: #f9f9f9;
 }
 
-/* Home Page */
-.home-container {
-    min-height: 100vh;
-    background-image: url('/theatre-room.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* Navbar */
+/* Navbar styling */
 .navbar {
     background: #222;
-    color: white;
+    color: #fff;
     display: flex;
     justify-content: space-between;
     padding: 1rem;
@@ -32,7 +24,7 @@ body {
 
 .navbar a,
 .navbar button {
-    color: white;
+    color: #fff;
     text-decoration: none;
     background: none;
     border: none;
@@ -40,14 +32,14 @@ body {
     font-size: 1rem;
 }
 
-/* Auth Forms */
+/* Form containers (Login, Register, Search, etc.) */
 .form-container {
-    max-width: 400px;
+    max-width: 600px;
     margin: 2rem auto;
     padding: 2rem;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-container form {
@@ -67,78 +59,48 @@ body {
 .form-container button {
     background: #222;
     color: white;
-    font-weight: bold;
     cursor: pointer;
 }
 
-/* Register Page */
-.form-container.register {
-    background-image: url('/image 4.jpg');
-}
-
-/* Page Layouts */
-.page-container {
-    padding: 1.5rem;
-}
-
-.home-container {
-    min-height: 100vh;
-}
-
-.home-content {
-    padding: 2rem;
-    text-align: center;
-}
-
-/* Search and Watchlist */
-.search-form {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
+/* Movie grid */
 .movie-grid {
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 1rem;
 }
 
-/* Movie Card */
+/* Movie card */
 .movie-card {
     background: white;
-    border-radius: 8px;
     padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    border-radius: 5px;
     text-align: center;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 }
 
-.movie-poster {
+.movie-card img {
     width: 100%;
-    border-radius: 6px;
+    height: auto;
+    border-radius: 5px;
 }
 
-.movie-details {
-    margin-top: 1rem;
+.movie-card h4 {
+    margin: 0.5rem 0;
+    font-size: 1rem;
 }
 
-.movie-action-btn {
-    margin-top: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: #007BFF;
-    color: white;
+.movie-card button {
+    background: #ff5722;
     border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.movie-action-btn:hover {
-    background: #0056b3;
-}
-
-/* Mobile tweaks */
+/* Responsive tweaks */
 @media (max-width: 600px) {
     .navbar {
         flex-direction: column;
@@ -154,11 +116,15 @@ body {
     .form-container {
         margin: 1rem;
     }
+
+    .movie-grid {
+        grid-template-columns: 1fr;
+    }
 }
-/* Footer */
+/* Footer styling */
 .footer {
     background: #222;
-    color: white;
+    color: #fff;
     text-align: center;
     padding: 1rem;
     position: relative;
@@ -169,47 +135,170 @@ body {
     margin: 0;
     font-size: 0.9rem;
 }
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: center;
+/* Additional styles for buttons and links */
+.button {
+    background: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.button:hover {
+    background: #0056b3;
+}
+a.link {
+    color: #007bff;
+    text-decoration: none;
+}
+a.link:hover {
+    text-decoration: underline;
+}
+/* Error messages */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+/* Success messages */
+.success-message {
+    color: green;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+/* Loading spinner */
+.loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #007bff;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
     }
-
-    .movie-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-
-    .form-container {
-        width: 90%;
-        margin: 1rem auto;
+    100% {
+        transform: rotate(360deg);
     }
 }
-
-/* Login Page */
-.form-container {
-    background-image: url('/image 3.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.2);
-    color: #fff;
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.modal-header,
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+.modal-footer button {
+    background: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.modal-footer button:hover {
+    background: #0056b3;
+}
+/* Dark mode styles */
+body.dark-mode {
+    background: #121212;
+    color: #e0e0e0;
+}
+.navbar.dark-mode {
+    background: #1f1f1f;
+}
+.navbar.dark-mode a,
+.navbar.dark-mode button {
+    color: #e0e0e0;
+}
+.form-container.dark-mode {
+    background: #1f1f1f;
+    color: #e0e0e0;
+}
+.movie-card.dark-mode {
+    background: #1f1f1f;
+    color: #e0e0e0;
+}
+.movie-card.dark-mode button {
+    background: #ff5722;
+}
+.footer.dark-mode {
+    background: #1f1f1f;
+    color: #e0e0e0;
+}
+/* Additional dark mode styles */
+.dark-mode .button {
+    background: #007bff;
+    color: white;
+}
+.dark-mode .button:hover {
+    background: #0056b3;
+}
+.dark-mode a.link {
+    color: #007bff;
+}
+.dark-mode a.link:hover {
+    text-decoration: underline;
+}
+/* Error and success messages in dark mode */
+.dark-mode .error-message {
+    color: #ff5252;
 }
 
-/* Search Page */
-.page-container.search {
-    background-image: url('/image2.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
+.dark-mode .success-message {
+    color: #66bb6a;
 }
 
-/* Watchlist Page */
-.page-container.watchlist {
-    background-image: url('/image5.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
+/* Loading spinner in dark mode */
+.dark-mode .loading-spinner {
+    border-left-color: #007bff;
 }
+
+/* Modal styles in dark mode */
+.dark-mode .modal {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.dark-mode .modal-content {
+    background: #1f1f1f;
+    color: #e0e0e0;
+}
+
+.dark-mode .modal-header h2 {
+    color: #e0e0e0;
+}
+
+.dark-mode .modal-footer button {
+    background: #007bff;
+    color: white;
+}
+
+.dark-mode .modal-footer button:hover {
+    background: #0056b3;
+}
+

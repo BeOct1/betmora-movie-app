@@ -1,37 +1,29 @@
-// src/App.js
-import React, { useState } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext.jsx';
-import AppRouter from './AppRouter.jsx';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-// If you have a NotificationProvider, import it. Otherwise, use a placeholder.
-// import NotificationProvider from './context/NotificationProvider.jsx';
-const NotificationProvider = ({ children }) => children; // Remove this if you have the real provider
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Search from './pages/Search';
+import Watchlist from './pages/Watchlist';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import { useAuth } from './context/AuthContext';
 
-function Dashboard() {
-  return <h2>Welcome to 🎬 Betmora </h2>;
-}
-
-function PrivateRoute({ children }) {
+const App = () => {
   const { user } = useAuth();
-  return user ? children : <Navigate to="/login" />;
-}
-
-function App() {
-  const [theme, setTheme] = useState('light');
-  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
   return (
-    <GoogleOAuthProvider clientId="240218761531-6c18rp9326jmdl5ebvhm3g4mnkcjaia3.apps.googleusercontent.com">
-      <NotificationProvider>
-        <button className="theme-toggle-btn" onClick={toggleTheme} aria-label="Toggle dark/light mode">
-          {theme === 'dark' ? '🌞' : '🌙'}
-        </button>
-        <AuthProvider>
-          <AppRouter />
-        </AuthProvider>
-      </NotificationProvider>
-    </GoogleOAuthProvider>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/search" element={user ? <Search /> : <Navigate to="/login" />} />
+        <Route path="/watchlist" element={user ? <Watchlist /> : <Navigate to="/login" />} />
+        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+        <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
+      </Routes>
+    </>
   );
-}
+};
 
 export default App;
+// This code defines the main application component for a React-based movie watchlist application.

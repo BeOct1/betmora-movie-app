@@ -1,38 +1,46 @@
-// src/components/Navbar.jsx
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext.jsx';
+import { useAuth } from '../context/AuthContext';
+import '../styles/styles.css'; // Ensure you have the correct path to your CSS file 
 import axios from 'axios';
-import '../styles/styles.css';
+// Ensure you have axios installed and configured for your API requests
+// If you have a different API setup, adjust the import accordingly
 
-function Navbar() {
-    const { user, setUser } = useContext(AuthContext);
+const Navbar = () => {
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        await axios.post('/api/auth/logout', {}, { withCredentials: true });
-        setUser(null);
+        await logout();
         navigate('/login');
     };
 
     return (
         <nav className="navbar">
-            <Link to="/home" className="nav-link">Home</Link>
-            {user && (
-                <>
-                    <Link to="/search" className="nav-link">Search</Link>
-                    <Link to="/watchlist" className="nav-link">Watchlist</Link>
-                    <button onClick={handleLogout} className="nav-logout-btn">Logout</button>
-                </>
-            )}
-            {!user && (
-                <>
-                    <Link to="/login" className="nav-link">Login</Link>
-                    <Link to="/register" className="nav-link">Register</Link>
-                </>
-            )}
+            <div className="nav-links">
+                {user && (
+                    <>
+                        <Link to="/">Home</Link>
+                        <Link to="/search">Search</Link>
+                        <Link to="/watchlist">Watchlist</Link>
+                    </>
+                )}
+            </div>
+            <div className="auth-links">
+                {user ? (
+                    <>
+                        <span>Welcome, {user.name}</span>
+                        <button onClick={handleLogout}>Logout</button>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login">Login</Link>
+                        <Link to="/register">Register</Link>
+                    </>
+                )}
+            </div>
         </nav>
     );
-}
+};
 
 export default Navbar;

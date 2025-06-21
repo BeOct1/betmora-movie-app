@@ -20,7 +20,7 @@ const Home = () => {
         </div>
       </nav>
 
-      <div className="home-content">
+      <div className="form-container">
         <h1>🎬 Welcome to BeTech Movie Recommendation App-Betmora, {user?.name}!</h1>
         <p>Discover and manage your favorite movies.</p>
       </div>
