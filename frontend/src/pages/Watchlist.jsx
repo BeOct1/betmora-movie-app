@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api';
 import MovieCard from '../components/MovieCard';
-import '../styles/styles.css'; // Ensure you have the correct path to your CSS file
-// Ensure you have axios installed and configured for your API requests
+import '../styles/styles.css';
 
 const Watchlist = () => {
     const [watchlist, setWatchlist] = useState([]);
@@ -33,24 +32,26 @@ const Watchlist = () => {
     }, []);
 
     return (
-        <div className="form-container">
-            <h2>Your Watchlist</h2>
-            {loading ? (
-                <p>Loading...</p>
-            ) : watchlist.length > 0 ? (
-                <div className="movie-grid">
-                    {watchlist.map((movie) => (
-                        <MovieCard
-                            key={movie.tmdbId}
-                            movie={movie}
-                            isInWatchlist
-                            onRemove={removeMovie}
-                        />
-                    ))}
-                </div>
-            ) : (
-                <p>watchlist is empty.</p>
-            )}
+        <div className="dashboard-bg">
+            <div className="form-container">
+                <h2>Your Watchlist</h2>
+                {loading ? (
+                    <p>Loading...</p>
+                ) : watchlist.length > 0 ? (
+                    <div className="movie-grid">
+                        {watchlist.map((movie) => (
+                            <MovieCard
+                                key={movie.tmdbId}
+                                movie={movie}
+                                isInWatchlist
+                                onRemove={removeMovie}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <p>watchlist is empty.</p>
+                )}
+            </div>
         </div>
     );
 };

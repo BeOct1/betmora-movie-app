@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import API from '../api';
-//import MovieCard from '../components/MovieCard';
 import MovieCard from '../components/MovieCard.jsx';
-import '../styles/styles.css'; // Ensure you have the correct path to your CSS file
+import '../styles/styles.css';
 
 
 const Search = () => {
@@ -25,25 +24,27 @@ const Search = () => {
     };
 
     return (
-        <div className="form-container">
-            <h2>Search Movies</h2>
-            <form onSubmit={handleSearch}>
-                <input
-                    type="text"
-                    placeholder="Enter movie title"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                />
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Searching...' : 'Search'}
-                </button>
-            </form>
-            <div className="movie-grid">
-                {results.length > 0 ? (
-                    results.map((movie) => <MovieCard key={movie.id} movie={movie} />)
-                ) : (
-                    !loading && <p>No results.</p>
-                )}
+        <div className="dashboard-bg">
+            <div className="form-container">
+                <h2>Search Movies</h2>
+                <form onSubmit={handleSearch}>
+                    <input
+                        type="text"
+                        placeholder="Enter movie title"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Searching...' : 'Search'}
+                    </button>
+                </form>
+                <div className="movie-grid">
+                    {results.length > 0 ? (
+                        results.map((movie) => <MovieCard key={movie.id} movie={movie} />)
+                    ) : (
+                        !loading && <p>No results.</p>
+                    )}
+                </div>
             </div>
         </div>
     );
