@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import '../styles/styles.css'; // Ensure you have the correct path to your CSS file
 // Ensure you have axios installed and configured for your API requests
 
 const MovieCard = ({ movie, isInWatchlist, onRemove }) => {
+    const navigate = useNavigate();
+
     const handleAdd = async () => {
         try {
             await API.post('/watchlist', {
@@ -21,8 +24,16 @@ const MovieCard = ({ movie, isInWatchlist, onRemove }) => {
         onRemove(movie.tmdbId);
     };
 
+    const handleDetails = () => {
+        navigate(`/movie/${movie.id || movie.tmdbId}`);
+    };
+
     return (
-        <div className="movie-card">
+        <div
+            className="movie-card"
+            style={{ cursor: 'pointer' }}
+            onClick={handleDetails}
+        >
             <img
                 src={
                     movie.poster_path || movie.poster
@@ -33,9 +44,23 @@ const MovieCard = ({ movie, isInWatchlist, onRemove }) => {
             />
             <h4>{movie.title}</h4>
             {!isInWatchlist ? (
-                <button onClick={handleAdd}>Add to Watchlist</button>
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleAdd();
+                    }}
+                >
+                    Add to Watchlist
+                </button>
             ) : (
-                <button onClick={handleRemove}>Remove</button>
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemove();
+                    }}
+                >
+                    Remove
+                </button>
             )}
         </div>
     );

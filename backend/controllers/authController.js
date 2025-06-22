@@ -70,3 +70,14 @@ export const getCurrentUser = async (req, res) => {
 
   res.json({ name: user.name, email: user.email });
 };
+
+export const updateProfile = async (req, res) => {
+  const { name, email, password } = req.body;
+  const user = await User.findById(req.userId);
+  if (!user) return res.status(404).json({ message: 'User not found' });
+  if (name) user.name = name;
+  if (email) user.email = email;
+  if (password) user.password = await bcrypt.hash(password, 10);
+  await user.save();
+  res.json({ name: user.name, email: user.email });
+};
