@@ -72,17 +72,23 @@ body {
 
 /* Movie card */
 .movie-card {
-    background: white;
-    padding: 1rem;
-    border-radius: 5px;
-    text-align: center;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 1rem;
+}
+
+.movie-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
 }
 
 .movie-card img {
     width: 100%;
     height: auto;
-    border-radius: 5px;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
 }
 
 .movie-card h4 {
@@ -91,16 +97,23 @@ body {
 }
 
 .movie-card button {
-    background: #ff5722;
+    background: linear-gradient(90deg, #ff5722 60%, #ff9800 100%);
     border: none;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 1rem;
     margin-top: 0.5rem;
-    border-radius: 4px;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
-/* Backgrounds for pages */
+.movie-card button:hover {
+    background: linear-gradient(90deg, #ff9800 60%, #ff5722 100%);
+}
+
+/* Movie Recommendation App Custom Backgrounds */
 .login-bg {
   background-image: url('/theatre-room.jpg');
   background-size: cover;
@@ -123,8 +136,32 @@ body {
   justify-content: center;
 }
 
-.dashboard-bg, .home-bg {
+.home-bg {
   background-image: url('/image5.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.dashboard-bg {
+  background-image: url('/image6.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.search-bg {
+  background-image: url('/image7.webp');
   background-size: cover;
   background-position: center;
   min-height: 100vh;

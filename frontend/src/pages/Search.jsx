@@ -24,7 +24,7 @@ const Search = () => {
     };
 
     return (
-        <div className="dashboard-bg">
+        <div className="search-bg">
             <div className="form-container">
                 <h2>Search Movies</h2>
                 <form onSubmit={handleSearch}>
