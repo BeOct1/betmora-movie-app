@@ -7,13 +7,14 @@ const Register = () => {
     const { register, loading } = useAuth();
     const navigate = useNavigate();
     const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!name || !email || !password) return alert('All fields are required');
-        await register(name, email, password);
+        if (!name || !username || !email || !password) return alert('All fields are required');
+        await register(name, username, email, password);
         navigate('/'); // Changed from /dashboard to /
     };
 
@@ -23,6 +24,7 @@ const Register = () => {
                 <h2>Register</h2>
                 <form onSubmit={handleSubmit}>
                     <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+                    <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                     <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                     <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <button type="submit" disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>

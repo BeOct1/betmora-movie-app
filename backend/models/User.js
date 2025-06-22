@@ -57,6 +57,13 @@ const UserSchema = new mongoose.Schema({
       }
     ],
     default: []
+  },
+
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
   }
 }, { timestamps: true });
 

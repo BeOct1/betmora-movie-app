@@ -7,19 +7,20 @@ const createToken = (userId) => {
 };
 
 export const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, username, email, password } = req.body;
 
-  if (!name || !email || !password)
+  if (!name || !username || !email || !password)
     return res.status(400).json({ message: 'All fields are required' });
 
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({ $or: [{ email }, { username }] });
   if (existingUser)
-    return res.status(400).json({ message: 'User already exists' });
+    return res.status(400).json({ message: 'User with this email or username already exists' });
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await User.create({
     name,
+    username,
     email,
     password: hashedPassword,
   });
@@ -32,7 +33,7 @@ export const registerUser = async (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
-  res.status(201).json({ user: { name: user.name, email: user.email } });
+  res.status(201).json({ user: { name: user.name, username: user.username, email: user.email } });
 };
 
 export const loginUser = async (req, res) => {
