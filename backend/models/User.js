@@ -37,6 +37,26 @@ const UserSchema = new mongoose.Schema({
   watchlist: {
     type: [Object], // stores movie objects
     default: [],
+  },
+
+  watchlists: {
+    type: [
+      {
+        name: { type: String, required: true },
+        movies: {
+          type: [
+            {
+              tmdbId: String,
+              title: String,
+              poster: String,
+              addedAt: { type: Date, default: Date.now }
+            }
+          ],
+          default: []
+        }
+      }
+    ],
+    default: []
   }
 }, { timestamps: true });
 
