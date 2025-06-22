@@ -13,17 +13,19 @@ const Login = () => {
     e.preventDefault();
     if (!email || !password) return alert('All fields are required');
     await login(email, password);
-    navigate('/'); // Changed from /dashboard to /
+    navigate('/');
   };
 
   return (
-    <div className="form-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
-      </form>
+    <div className="login-bg">
+      <div className="form-container">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
+        </form>
+      </div>
     </div>
   );
 };

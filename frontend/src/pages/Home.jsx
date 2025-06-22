@@ -7,7 +7,7 @@ const Home = () => {
   const { user, logout } = useAuth();
 
   return (
-    <div className="home-container">
+    <div className="home-bg">
       <nav className="navbar">
         <div className="nav-links">
           <Link to="/">Home</Link>

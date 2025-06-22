@@ -15,7 +15,12 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: [process.env.CLIENT_URL, 'http://localhost:3000'], // For local development
+  origin: [
+    process.env.CLIENT_URL, // e.g. https://your-frontend.vercel.app
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://betmora-frontend.vercel.app', // Add your actual Vercel frontend URL
+  ],
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
   exposedHeaders: 'Set-Cookie',
