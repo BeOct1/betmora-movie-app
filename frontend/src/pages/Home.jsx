@@ -31,7 +31,7 @@ const Home = () => {
         }}
       >
         <MovieIcon sx={{ fontSize: 60, color: '#ff9800', mb: 2 }} />
-        <Typography variant="h3" sx={{ color: '#91F726', fontWeight: 700, mb: 2, letterSpacing: 1, maxWidth: 520, lineHeight: 1.2 }}>
+        <Typography variant="h3" sx={{ color: '#0E0F12', fontWeight: 700, mb: 2, letterSpacing: 1, maxWidth: 520, lineHeight: 1.2, textAlign: 'center' }}>
           🎬 Welcome to BeTech Movie Recommendation App by Bitrus Edward
         </Typography>
         <Typography variant="h6" sx={{ color: '#0E0F12', mb: 3, fontWeight: 400, maxWidth: 520, lineHeight: 1.5 }}>
