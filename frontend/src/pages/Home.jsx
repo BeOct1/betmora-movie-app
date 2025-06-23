@@ -32,10 +32,10 @@ const Home = () => {
       >
         <MovieIcon sx={{ fontSize: 60, color: '#ff9800', mb: 2 }} />
         <Typography variant="h3" sx={{ color: '#91F726', fontWeight: 700, mb: 2, letterSpacing: 1, maxWidth: 520, lineHeight: 1.2 }}>
-          🎬 Welcome to BeTech Movie Recommendation App<br />by Bitrus Edward
+          🎬 Welcome to BeTech Movie Recommendation App by Bitrus Edward
         </Typography>
         <Typography variant="h6" sx={{ color: '#0E0F12', mb: 3, fontWeight: 400, maxWidth: 520, lineHeight: 1.5 }}>
-          Discover, search, and manage your favorite movies<br />in style.
+          Discover, search, and manage your favorite movies in style.
         </Typography>
       </Box>
       <Box
@@ -88,7 +88,7 @@ const Home = () => {
         bottom: 0,
         zIndex: 1000
       }}>
-        &copy; {new Date().getFullYear()}, 3MTT | BeTech Solution
+        &copy; {new Date().getFullYear()}, 3MTT Capstone Project | BeTech Solution
       </Box>
     </Box>
   );
