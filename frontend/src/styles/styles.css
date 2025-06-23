@@ -6,6 +6,21 @@ body {
     background: #f9f9f9;
 }
 
+/* --- Modern Movie App Global Styles --- */
+body {
+    background-color: #0E0F12 !important;
+    color: #fff !important;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #91F726 !important;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    font-weight: 700;
+}
+
 /* Navbar styling */
 .navbar {
     background: #222;
@@ -30,6 +45,43 @@ body {
     border: none;
     cursor: pointer;
     font-size: 1rem;
+}
+
+/* Search Input */
+.searchInput {
+    background-color: #1A1A1D;
+    color: #fff;
+    border: 1px solid #91F726;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.searchInput:focus {
+    border-color: #91F726;
+    box-shadow: none;
+}
+.searchInput::placeholder {
+    color: #777;
+    opacity: 1;
+}
+
+/* Highlight Button */
+.searchButton, .highlightButton {
+    background-color: #91F726;
+    color: #0E0F12;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+.searchButton:hover, .highlightButton:hover {
+    background-color: #7ED520;
+    transform: scale(1.05);
 }
 
 /* Form containers (Login, Register, Search, etc.) */
@@ -72,16 +124,17 @@ body {
 
 /* Movie card */
 .movie-card {
-    background: rgba(255,255,255,0.95);
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    background-color: #1A1A1D !important;
+    border: 1px solid #91F726 !important;
+    border-radius: 16px !important;
+    color: #fff !important;
     transition: transform 0.2s, box-shadow 0.2s;
-    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(145,247,38,0.08);
 }
 
 .movie-card:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    transform: scale(1.05);
+    box-shadow: 0 0 24px 2px #91F726;
 }
 
 .movie-card img {
@@ -296,6 +349,15 @@ a.link:hover {
 .modal-footer button:hover {
     background: #0056b3;
 }
+
+/* Modal Content */
+.MuiDialog-paper {
+    background-color: #1A1A1D !important;
+    color: #fff !important;
+    border: 1px solid #91F726 !important;
+    border-radius: 16px !important;
+}
+
 /* Dark mode styles */
 body.dark-mode {
     background: #121212;
@@ -351,26 +413,19 @@ body.dark-mode {
     border-left-color: #007bff;
 }
 
-/* Modal styles in dark mode */
-.dark-mode .modal {
-    background: rgba(0, 0, 0, 0.8);
+/* Spinner */
+.spinner {
+    color: #91F726 !important;
+    width: 3rem !important;
+    height: 3rem !important;
 }
 
-.dark-mode .modal-content {
-    background: #1f1f1f;
-    color: #e0e0e0;
-}
-
-.dark-mode .modal-header h2 {
-    color: #e0e0e0;
-}
-
-.dark-mode .modal-footer button {
-    background: #007bff;
-    color: white;
-}
-
-.dark-mode .modal-footer button:hover {
-    background: #0056b3;
+/* Utility classes for containers */
+.movieContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
 }
 
