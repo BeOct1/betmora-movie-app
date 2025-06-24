@@ -50,109 +50,74 @@ const Home = () => {
     }
   }, [user]);
 
+  // Netflix-style horizontal scroll row
+  const MovieRow = ({ title, movies, loading, error, icon }) => (
+    <section className="movie-row-section">
+      <h2 className="movie-row-title">
+        {icon && <span className="movie-row-icon">{icon}</span>} {title}
+      </h2>
+      {loading ? (
+        <div className="movie-row-skeleton">
+          {[...Array(6)].map((_, i) => <div className="movie-card-skeleton" key={i} />)}
+        </div>
+      ) : error ? (
+        <div className="movie-row-error">{error}</div>
+      ) : movies && movies.length ? (
+        <div className="movie-row-scroll">
+          {movies.map(movie => <MovieCard key={movie.id || movie.tmdbId} movie={movie} />)}
+        </div>
+      ) : (
+        <div className="movie-row-empty">No movies found.</div>
+      )}
+    </section>
+  );
+
   return (
-    <main className={`home-bg-simple${theme === 'dark' ? ' dark-mode' : ''}`}> 
-      <header className="home-header-simple">
-        <button className="theme-toggle-btn-simple" onClick={toggleTheme} aria-label="Toggle dark/light mode">
-          {theme === 'dark' ? '🌞' : '🌙'}
-        </button>
-        <span className="movie-icon-simple">🎬</span>
-        <h1 className="home-title-simple" style={{ fontSize: '2.2rem' }}>Welcome to BeTech Movie Recommendation App | by Bitrus Edward</h1>
-        <p className="home-subtitle-simple" style={{ fontSize: '1.1rem' }}>Discover, search, and manage your favorite movies in style.</p>
+    <main className={`home-bg-netflix${theme === 'dark' ? ' dark-mode' : ''}`}> 
+      <header className="home-header-netflix">
+        <div className="home-hero-netflix">
+          <span className="movie-icon-netflix">🎬</span>
+          <h1 className="home-title-netflix">Welcome to BetMora</h1>
+          <p className="home-subtitle-netflix">Your personalized movie universe. Discover, search, and manage your favorites in style.</p>
+          <nav className="home-action-netflix" aria-label="Quick navigation">
+            <Link to="/search" className="home-btn-netflix" aria-label="Start Exploring">Start Exploring</Link>
+            {user && (
+              <Link to="/social" className="home-btn-netflix" aria-label="Go to Social">Social</Link>
+            )}
+          </nav>
+        </div>
       </header>
-      <nav className="home-action-simple" aria-label="Quick navigation">
-        <Link to="/search" className="home-btn-simple" aria-label="Start Exploring">Start Exploring</Link>
-        {user && (
-          <Link to="/social" className="home-btn-simple" style={{ marginTop: 16 }} aria-label="Go to Social">Social</Link>
-        )}
-      </nav>
-      {/* Personalized Recommendations Section */}
-      {user && (
-        <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '2rem 0' }}>
-          <h2 style={{ color: '#91F726', textAlign: 'center', fontWeight: 700, fontSize: '2rem', marginBottom: 24, letterSpacing: 1 }}>
-            Just For You
-          </h2>
-          {loadingPersonalized ? (
-            <div className="movie-grid-skeleton">
-              {[...Array(6)].map((_, i) => <div className="movie-card-skeleton" key={i} />)}
-            </div>
-          ) : errorPersonalized ? (
-            <div style={{ color: '#f44336', textAlign: 'center' }}>{errorPersonalized}</div>
-          ) : personalized && personalized.length ? (
-            <div className="movie-grid">
-              {personalized.map(movie => <MovieCard key={movie.id || movie.tmdbId} movie={movie} />)}
-            </div>
-          ) : (
-            <div style={{ color: '#aaa', textAlign: 'center' }}>
-              <span style={{ fontSize: 32 }}>🎬</span>
-              <div>Like, review, or watch movies to get personalized picks!</div>
-            </div>
-          )}
-        </section>
-      )}
-      {/* Continue Watching Section */}
-      {user && (
-        <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '2rem 0' }}>
-          <h2 style={{ color: '#00e6e6', textAlign: 'center', fontWeight: 700, fontSize: '2rem', marginBottom: 24, letterSpacing: 1 }}>
-            Continue Watching
-          </h2>
-          {loadingCW ? (
-            <div className="movie-grid-skeleton">
-              {[...Array(4)].map((_, i) => <div className="movie-card-skeleton" key={i} />)}
-            </div>
-          ) : errorCW ? (
-            <div style={{ color: '#f44336', textAlign: 'center' }}>{errorCW}</div>
-          ) : continueWatching && continueWatching.length ? (
-            <div className="movie-grid">
-              {continueWatching.map(movie => <MovieCard key={movie.id || movie.tmdbId} movie={movie} />)}
-            </div>
-          ) : (
-            <div style={{ color: '#aaa', textAlign: 'center' }}>
-              <span style={{ fontSize: 32 }}>⏯️</span>
-              <div>No movies to continue. Start watching something!</div>
-            </div>
-          )}
-        </section>
-      )}
-      {/* Because You Liked Section */}
-      {user && (
-        <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '2rem 0' }}>
-          <h2 style={{ color: '#ff9800', textAlign: 'center', fontWeight: 700, fontSize: '2rem', marginBottom: 24, letterSpacing: 1 }}>
-            Because you liked...
-          </h2>
-          {loadingBYL ? (
-            <div className="movie-grid-skeleton">
-              {[...Array(4)].map((_, i) => <div className="movie-card-skeleton" key={i} />)}
-            </div>
-          ) : errorBYL ? (
-            <div style={{ color: '#f44336', textAlign: 'center' }}>{errorBYL}</div>
-          ) : becauseYouLiked && becauseYouLiked.length ? (
-            <div className="movie-grid">
-              {becauseYouLiked.map(movie => <MovieCard key={movie.id || movie.tmdbId} movie={movie} />)}
-            </div>
-          ) : (
-            <div style={{ color: '#aaa', textAlign: 'center' }}>
-              <span style={{ fontSize: 32 }}>💡</span>
-              <div>Like some movies to get personalized picks!</div>
-            </div>
-          )}
-        </section>
-      )}
-      {/* Movie grid or recommendations can go here */}
-      <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '2rem 0' }}>
-        <h2 style={{ color: '#91F726', textAlign: 'center', fontWeight: 700, fontSize: '2rem', marginBottom: 24, letterSpacing: 1 }}>
-          Recommended For You
-        </h2>
-        <Recommendations />
+      {/* Netflix-style rows: Just For You, Continue Watching, Because You Liked, Top Rated, Trending */}
+      {user && <MovieRow
+        title="Just For You"
+        icon="✨"
+        movies={personalized}
+        loading={loadingPersonalized}
+        error={errorPersonalized}
+      />}
+      {user && <MovieRow
+        title="Continue Watching"
+        icon="⏯️"
+        movies={continueWatching}
+        loading={loadingCW}
+        error={errorCW}
+      />}
+      {user && <MovieRow
+        title="Because You Liked..."
+        icon="💡"
+        movies={becauseYouLiked}
+        loading={loadingBYL}
+        error={errorBYL}
+      />}
+      <section className="movie-row-section">
+        <h2 className="movie-row-title"><span className="movie-row-icon">🔥</span> Trending Now</h2>
+        <Recommendations type="trending" rowStyle />
       </section>
-      {/* Top Rated Movies section */}
-      <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '2rem 0' }}>
-        <h2 style={{ color: '#FFD700', textAlign: 'center', fontWeight: 700, fontSize: '2rem', marginBottom: 24, letterSpacing: 1 }}>
-          Top Rated Movies
-        </h2>
-        <Recommendations type="top-rated" />
+      <section className="movie-row-section">
+        <h2 className="movie-row-title"><span className="movie-row-icon">🏆</span> Top Rated Movies</h2>
+        <Recommendations type="top-rated" rowStyle />
       </section>
-      <footer className="home-footer-simple" style={{ fontSize: '1rem' }}>
+      <footer className="home-footer-netflix">
         &copy; {new Date().getFullYear()}, 3MTT Capstone Project | BeTech Solution
       </footer>
     </main>
