@@ -11,4 +11,20 @@ const API = axios.create({
   withCredentials: true,
 });
 
+// Fetch Continue Watching and Because You Liked
+export const getContinueWatching = async () => {
+  const res = await API.get('/recommendations/continue-watching');
+  return res.data;
+};
+
+export const getBecauseYouLiked = async () => {
+  const res = await API.get('/recommendations/because-you-liked');
+  return res.data;
+};
+
+export const getPersonalizedRecommendations = async () => {
+  const res = await API.get('/recommendations/personalized');
+  return res.data;
+};
+
 export default API;
