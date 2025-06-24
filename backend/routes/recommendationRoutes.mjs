@@ -1,15 +1,14 @@
 import express from 'express';
 import authMiddleware from '../middleware/authMiddleware.js';
-import { getContinueWatching, getBecauseYouLiked, getPersonalizedRecommendations } from '../controllers/recommendationController.js';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const recommendationController = require('../controllers/recommendationController.js');
 
 const router = express.Router();
 
-// Existing recommendations endpoint (already present in old file)
-// ...
-
 // New personalized endpoints
-router.get('/continue-watching', authMiddleware, getContinueWatching);
-router.get('/because-you-liked', authMiddleware, getBecauseYouLiked);
-router.get('/personalized', authMiddleware, getPersonalizedRecommendations);
+router.get('/continue-watching', authMiddleware, recommendationController.getContinueWatching);
+router.get('/because-you-liked', authMiddleware, recommendationController.getBecauseYouLiked);
+router.get('/personalized', authMiddleware, recommendationController.getPersonalizedRecommendations);
 
 export default router;
