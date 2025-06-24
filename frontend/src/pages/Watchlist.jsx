@@ -33,8 +33,8 @@ const Watchlist = () => {
     }, []);
 
     return (
-        <div className="dashboard-bg">
-            <div className="form-container">
+        <main className="dashboard-bg">
+            <section className="form-container">
                 <h2>Your Watchlist</h2>
                 {loading ? (
                     <div className="movie-grid">
@@ -48,17 +48,18 @@ const Watchlist = () => {
                                 movie={movie}
                                 isInWatchlist
                                 onRemove={removeMovie}
+                                aria-label={`Remove ${movie.title} from watchlist`}
                             />
                         ))}
                     </div>
                 ) : (
-                    <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem' }}>
+                    <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem', fontSize: '1rem' }}>
                         <div style={{ fontSize: 48, marginBottom: 8 }}>🍿</div>
                         <div>Your watchlist is empty. Start adding movies to watch later!</div>
                     </div>
                 )}
-            </div>
-        </div>
+            </section>
+        </main>
     );
 };
 

@@ -31,8 +31,8 @@ const Favorites = () => {
   }, []);
 
   return (
-    <div className="dashboard-bg">
-      <div className="form-container">
+    <main className="dashboard-bg">
+      <section className="form-container">
         <h2>Your Favorites</h2>
         {loading ? (
           <div className="movie-grid">
@@ -41,17 +41,17 @@ const Favorites = () => {
         ) : favorites.length > 0 ? (
           <div className="movie-grid">
             {favorites.map(movie => (
-              <MovieCard key={movie.tmdbId} movie={movie} isFavorite onRemoveFavorite={removeFavorite} />
+              <MovieCard key={movie.tmdbId} movie={movie} isFavorite onRemoveFavorite={removeFavorite} aria-label={`Remove ${movie.title} from favorites`} />
             ))}
           </div>
         ) : (
-          <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem' }}>
+          <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem', fontSize: '1rem' }}>
             <div style={{ fontSize: 48, marginBottom: 8 }}>❤️</div>
             <div>No favorites yet. Start adding movies you love!</div>
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

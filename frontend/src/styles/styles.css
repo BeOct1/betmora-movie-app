@@ -413,51 +413,65 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   text-align: center;
   padding: 1rem 0;
-  color: #91F726;
+  color: #b5c2a7;
   font-weight: 500;
   font-size: 16px;
   letter-spacing: 1px;
   background: rgba(20,30,48,0.85);
-  border-top: 1px solid #91F726;
+  border-top: 1px solid #535a4c;
   position: fixed;
   left: 0;
   bottom: 0;
   z-index: 1000;
 }
 
+/* --- Visual Polish: Accessibility, Hover/Focus, Contrast --- */
 button, .button, .home-btn-simple, .trailer-btn, .highlightButton, .searchButton {
-  font-family: 'Poppins', Arial, sans-serif;
-  font-size: 1.1rem;
-  border-radius: 12px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
   outline: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(20,30,48,0.10);
 }
 button:focus, .button:focus, .home-btn-simple:focus, .trailer-btn:focus, .highlightButton:focus, .searchButton:focus {
-  box-shadow: 0 0 0 3px #91F72655;
+  box-shadow: 0 0 0 3px #91F726, 0 2px 8px rgba(20,30,48,0.10);
+  outline: 2px solid #91F726;
+  outline-offset: 2px;
+  z-index: 2;
 }
-
-a, a.link, .navbar a {
+button:hover, .button:hover, .home-btn-simple:hover, .trailer-btn:hover, .highlightButton:hover, .searchButton:hover {
+  filter: brightness(1.08);
+  transform: scale(1.04);
+  background: #222 !important;
+  color: #91F726 !important;
+}
+a, .link {
+  color: #FFD700;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+a:hover, .link:hover, a:focus, .link:focus {
   color: #91F726;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s, text-shadow 0.2s;
+  outline: 2px solid #91F726;
+  outline-offset: 2px;
 }
-a:hover, a.link:hover, .navbar a:hover {
-  color: #fff;
-  text-shadow: 0 0 8px #91F72699;
+.movie-card {
+  background: #181a15 !important;
+  color: #fff !important;
+  border: 1.5px solid #91F726 !important;
+  box-shadow: 0 2px 12px rgba(145,247,38,0.10);
+  transition: box-shadow 0.2s, transform 0.2s, border 0.2s;
+}
+.movie-card:hover, .movie-card:focus-within {
+  box-shadow: 0 0 32px 2px #FFD700;
+  border: 2px solid #FFD700 !important;
+  transform: scale(1.03);
 }
 
-.movie-card, .MuiCard-root {
-  border-radius: 20px !important;
-  box-shadow: 0 2px 12px 0 #91F72622;
-  transition: box-shadow 0.25s, transform 0.2s;
+/* Ensure color contrast for text on dark backgrounds */
+body, .dashboard-bg, .form-container, .search-bg, .home-bg-simple {
+  color: #fff !important;
+  background: #0E0F12 !important;
 }
-.movie-card:hover, .MuiCard-root:hover {
-  box-shadow: 0 4px 32px 2px #91F72699, 0 0 8px #fff;
-  transform: scale(1.04) translateY(-2px);
-}
+/* End Visual Polish */
 
 /* Skeleton loader styles */
 .skeleton-card {

@@ -74,23 +74,30 @@ const MovieCard = ({ movie, isInWatchlist, onRemove, isFavorite, onRemoveFavorit
     };
 
     return (
-        <div
+        <section
             className="movie-card"
             style={{ cursor: 'pointer', position: 'relative' }}
+            tabIndex={0}
+            aria-label={`View details for ${movie.title}`}
             onClick={handleDetails}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') handleDetails(); }}
         >
             <img
                 src={
                     movie.poster_path || movie.poster
-                        ? `https://image.tmdb.org/t/p/w300/${movie.poster_path || movie.poster}`
-                        : 'https://via.placeholder.com/300x450?text=No+Image'
+                        ? `https://image.tmdb.org/t/p/w500/${movie.poster_path || movie.poster}`
+                        : 'https://via.placeholder.com/500x750?text=No+Image'
                 }
                 alt={movie.title}
+                style={{ borderRadius: 12 }}
             />
             <h4>{movie.title}</h4>
             <button
                 className="trailer-btn"
+                aria-label={`Watch trailer for ${movie.title}`}
                 onClick={handleWatchTrailer}
+                onMouseDown={e => e.stopPropagation()}
+                tabIndex={0}
                 style={{
                     background: '#ff9800',
                     color: '#fff',
@@ -106,19 +113,26 @@ const MovieCard = ({ movie, isInWatchlist, onRemove, isFavorite, onRemoveFavorit
                     cursor: 'pointer',
                     boxShadow: '0 2px 8px rgba(255,152,0,0.15)'
                 }}
-                onMouseDown={e => e.stopPropagation()}
             >
                 <PlayCircleFilled style={{ marginRight: 4 }} /> Trailer
             </button>
             {/* Share Button */}
             <button
                 className="trailer-btn"
+                aria-label={`Copy link to ${movie.title}`}
+                tabIndex={0}
                 style={{ background: '#91F726', color: '#181a15', marginBottom: 8 }}
                 onClick={e => {
                     e.stopPropagation();
                     navigator.clipboard.writeText(window.location.origin + `/movie/${movie.id || movie.tmdbId}`);
-                    toast.showToast('Link copied to clipboard!', 'success');
+                    toast.showToast('Link copied to clipboard! ', 'success', {
+                        action: {
+                            label: 'Undo',
+                            onClick: () => toast.showToast('Share undone.', 'info')
+                        }
+                    });
                 }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.target.click(); }}
                 onMouseDown={e => e.stopPropagation()}
             >
                 <span role="img" aria-label="share" style={{ marginRight: 6 }}>🔗</span> Share
@@ -126,6 +140,8 @@ const MovieCard = ({ movie, isInWatchlist, onRemove, isFavorite, onRemoveFavorit
             {/* Twitter Share */}
             <button
                 className="trailer-btn"
+                aria-label={`Share ${movie.title} to X`}
+                tabIndex={0}
                 style={{ background: '#1da1f2', color: '#fff', marginBottom: 8 }}
                 onClick={e => {
                     e.stopPropagation();
@@ -133,9 +149,43 @@ const MovieCard = ({ movie, isInWatchlist, onRemove, isFavorite, onRemoveFavorit
                     const text = encodeURIComponent(`Check out ${movie.title} on Betmora!`);
                     window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
                 }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.target.click(); }}
                 onMouseDown={e => e.stopPropagation()}
             >
-                <span role="img" aria-label="twitter" style={{ marginRight: 6 }}>🐦</span> Share to X
+                <span role="img" aria-label="twitter" style={{ marginRight: 6 }}>🐦</span> X
+            </button>
+            {/* Facebook Share */}
+            <button
+                className="trailer-btn"
+                aria-label={`Share ${movie.title} to Facebook`}
+                tabIndex={0}
+                style={{ background: '#4267B2', color: '#fff', marginBottom: 8 }}
+                onClick={e => {
+                    e.stopPropagation();
+                    const url = encodeURIComponent(window.location.origin + `/movie/${movie.id || movie.tmdbId}`);
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+                }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.target.click(); }}
+                onMouseDown={e => e.stopPropagation()}
+            >
+                <span role="img" aria-label="facebook" style={{ marginRight: 6 }}>📘</span> Facebook
+            </button>
+            {/* WhatsApp Share */}
+            <button
+                className="trailer-btn"
+                aria-label={`Share ${movie.title} to WhatsApp`}
+                tabIndex={0}
+                style={{ background: '#25D366', color: '#fff', marginBottom: 8 }}
+                onClick={e => {
+                    e.stopPropagation();
+                    const url = encodeURIComponent(window.location.origin + `/movie/${movie.id || movie.tmdbId}`);
+                    const text = encodeURIComponent(`Check out ${movie.title} on Betmora!`);
+                    window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+                }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.target.click(); }}
+                onMouseDown={e => e.stopPropagation()}
+            >
+                <span role="img" aria-label="whatsapp" style={{ marginRight: 6 }}>🟢</span> WhatsApp
             </button>
             {!isInWatchlist ? (
                 <button
@@ -171,7 +221,7 @@ const MovieCard = ({ movie, isInWatchlist, onRemove, isFavorite, onRemoveFavorit
                     </div>
                 </div>
             )}
-        </div>
+        </section>
     );
 };
 

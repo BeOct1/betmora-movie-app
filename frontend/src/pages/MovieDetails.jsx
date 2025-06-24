@@ -66,96 +66,183 @@ const MovieDetails = () => {
     }
   };
 
-  if (loading) return <div className="form-container"><p>Loading...</p></div>;
-  if (error) return <div className="form-container"><p>{error}</p></div>;
+  const CollapsibleSection = ({ title, children, defaultOpen = false }) => {
+    const [open, setOpen] = useState(defaultOpen);
+    return (
+      <section style={{ margin: '1rem 0', border: '1px solid #333', borderRadius: 8, background: '#222' }}>
+        <button
+          aria-expanded={open}
+          aria-controls={`section-${title.replace(/\s/g, '')}`}
+          onClick={() => setOpen(o => !o)}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setOpen(o => !o); }}
+          style={{
+            width: '100%',
+            textAlign: 'left',
+            background: 'none',
+            border: 'none',
+            color: '#FFD700',
+            fontWeight: 700,
+            fontSize: '1.1rem',
+            padding: '0.8rem 1rem',
+            cursor: 'pointer',
+            outline: 'none',
+          }}
+        >
+          {title} {open ? '▲' : '▼'}
+        </button>
+        {open && <div id={`section-${title.replace(/\s/g, '')}`} style={{ padding: '0.5rem 1rem' }}>{children}</div>}
+      </section>
+    );
+  };
+
+  if (loading) return <main className="form-container"><p>Loading...</p></main>;
+  if (error) return <main className="form-container"><p>{error}</p></main>;
   if (!movie) return null;
 
   return (
-    <div className="dashboard-bg">
-      <div className="form-container" style={{ maxWidth: 800 }}>
+    <main className="dashboard-bg">
+      <section className="form-container" style={{ maxWidth: 800 }}>
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
           <img
-            src={movie.poster_path ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}` : '/image.jpg'}
+            src={movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : '/image.jpg'}
             alt={movie.title}
             style={{ borderRadius: 12, width: 200, minWidth: 150 }}
           />
-          <div>
+          <div style={{ flex: 1 }}>
             <h2>{movie.title} ({movie.release_date?.slice(0, 4)})</h2>
+            {/* Quick Rate Button */}
+            <button
+              className="trailer-btn"
+              aria-label="Rate this movie"
+              style={{ background: '#FFD700', color: '#181a15', fontWeight: 700, margin: '8px 0', fontSize: '1.1rem' }}
+              onClick={() => document.getElementById('review-form')?.scrollIntoView({ behavior: 'smooth' })}
+            >
+              ⭐ Rate this movie
+            </button>
             <p><strong>Genres:</strong> {movie.genres?.map(g => g.name).join(', ')}</p>
             <p><strong>TMDB Rating:</strong> {movie.vote_average} / 10</p>
             <p><strong>App Rating:</strong> {avgRating ? avgRating.toFixed(1) : 'N/A'} / 10</p>
             <p><strong>Overview:</strong> {movie.overview}</p>
             <p><strong>Runtime:</strong> {movie.runtime} min</p>
-            <p><strong>Cast:</strong> {movie.credits?.cast?.slice(0, 5).map(c => c.name).join(', ')}</p>
-            <p><strong>Production:</strong> {movie.production_companies?.map(c => c.name).join(', ')}</p>
-            <p><strong>Budget:</strong> {movie.budget ? `$${movie.budget.toLocaleString()}` : 'N/A'}</p>
-            <p><strong>Revenue:</strong> {movie.revenue ? `$${movie.revenue.toLocaleString()}` : 'N/A'}</p>
-            {/* Ratings/reviews */}
-            <div style={{ marginTop: 24 }}>
-              <h3>User Ratings & Reviews</h3>
-              <form onSubmit={handleReviewSubmit} style={{ marginBottom: 16 }}>
-                <label>
-                  Your Rating:
-                  <input
-                    type="number"
-                    min={0}
-                    max={10}
-                    value={rating}
-                    onChange={e => setRating(Number(e.target.value))}
-                    style={{ width: 60, marginLeft: 8 }}
-                  />
-                </label>
-                <br />
-                <textarea
-                  placeholder="Write a review..."
-                  value={reviewText}
-                  onChange={e => setReviewText(e.target.value)}
-                  rows={2}
-                  style={{ width: '100%', marginTop: 8 }}
-                />
-                <br />
-                <button type="submit" disabled={submitting || !reviewText.trim()} style={{ marginTop: 8 }}>
-                  {submitting ? 'Submitting...' : 'Submit Review'}
-                </button>
-              </form>
-              {reviews.length === 0 ? (
-                <p>No reviews yet.</p>
-              ) : (
-                <ul style={{ paddingLeft: 0 }}>
-                  {reviews.map(r => (
-                    <li key={r._id} style={{ marginBottom: 12, listStyle: 'none', borderBottom: '1px solid #eee', paddingBottom: 8 }}>
-                      <strong>{r.user?.name || 'User'}:</strong> <span style={{ color: '#ff9800' }}>{r.rating}/10</span>
-                      <br />
-                      <span>{r.comment}</span>
-                      <br />
-                      <small>{new Date(r.createdAt).toLocaleString()}</small>
-                    </li>
+            <CollapsibleSection title="Cast" defaultOpen={false}>
+              {movie.credits?.cast?.length ? (
+                <ul style={{ paddingLeft: 0, margin: 0 }}>
+                  {movie.credits.cast.slice(0, 10).map(c => (
+                    <li key={c.cast_id || c.credit_id} style={{ listStyle: 'none', marginBottom: 4 }}>{c.name} <span style={{ color: '#aaa', fontSize: 13 }}>as {c.character}</span></li>
                   ))}
                 </ul>
-              )}
-            </div>
+              ) : 'No cast info.'}
+            </CollapsibleSection>
+            <CollapsibleSection title="Crew" defaultOpen={false}>
+              {movie.credits?.crew?.length ? (
+                <ul style={{ paddingLeft: 0, margin: 0 }}>
+                  {movie.credits.crew.slice(0, 10).map(c => (
+                    <li key={c.credit_id} style={{ listStyle: 'none', marginBottom: 4 }}>{c.name} <span style={{ color: '#aaa', fontSize: 13 }}>({c.job})</span></li>
+                  ))}
+                </ul>
+              ) : 'No crew info.'}
+            </CollapsibleSection>
+            <CollapsibleSection title="Reviews" defaultOpen={true}>
+              <div style={{ marginTop: 8 }}>
+                <form id="review-form" onSubmit={handleReviewSubmit} style={{ marginBottom: 16 }} aria-label="Submit a review">
+                  <label>
+                    Your Rating:
+                    <input
+                      type="number"
+                      min={0}
+                      max={10}
+                      value={rating}
+                      onChange={e => setRating(Number(e.target.value))}
+                      style={{ width: 60, marginLeft: 8 }}
+                      aria-label="Your rating"
+                    />
+                  </label>
+                  <br />
+                  <textarea
+                    placeholder="Write a review..."
+                    value={reviewText}
+                    onChange={e => setReviewText(e.target.value)}
+                    rows={2}
+                    style={{ width: '100%', marginTop: 8 }}
+                    aria-label="Review text"
+                  />
+                  <br />
+                  <button type="submit" disabled={submitting || !reviewText.trim()} style={{ marginTop: 8 }} aria-label="Submit review">
+                    {submitting ? 'Submitting...' : 'Submit Review'}
+                  </button>
+                </form>
+                {reviews.length === 0 ? (
+                  <p>No reviews yet.</p>
+                ) : (
+                  <ul style={{ paddingLeft: 0 }}>
+                    {reviews.map(r => (
+                      <li key={r._id} style={{ marginBottom: 12, listStyle: 'none', borderBottom: '1px solid #eee', paddingBottom: 8 }}>
+                        <strong>{r.user?.name || 'User'}:</strong> <span style={{ color: '#ff9800' }}>{r.rating}/10</span>
+                        <br />
+                        <span>{r.comment}</span>
+                        <br />
+                        <small>{new Date(r.createdAt).toLocaleString()}</small>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </CollapsibleSection>
             {/* Share Buttons */}
-            <div style={{ display: 'flex', gap: 12, margin: '16px 0' }}>
+            <div style={{ display: 'flex', gap: 12, margin: '16px 0', flexWrap: 'wrap' }}>
               <button
                 className="trailer-btn"
+                aria-label={`Copy link to ${movie.title}`}
+                tabIndex={0}
                 style={{ background: '#91F726', color: '#181a15' }}
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.origin + `/movie/${movie.id}`);
-                  alert('Link copied to clipboard!');
+                  if (window.confirm('Link copied to clipboard! Undo?')) alert('Share undone.');
                 }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.target.click(); }}
               >
                 <span role="img" aria-label="share" style={{ marginRight: 6 }}>🔗</span> Share
               </button>
               <button
                 className="trailer-btn"
+                aria-label={`Share ${movie.title} to X`}
+                tabIndex={0}
                 style={{ background: '#1da1f2', color: '#fff' }}
                 onClick={() => {
                   const url = encodeURIComponent(window.location.origin + `/movie/${movie.id}`);
                   const text = encodeURIComponent(`Check out ${movie.title} on Betmora!`);
                   window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
                 }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.target.click(); }}
               >
-                <span role="img" aria-label="twitter" style={{ marginRight: 6 }}>🐦</span> Share to X
+                <span role="img" aria-label="twitter" style={{ marginRight: 6 }}>🐦</span> X
+              </button>
+              <button
+                className="trailer-btn"
+                aria-label={`Share ${movie.title} to Facebook`}
+                tabIndex={0}
+                style={{ background: '#4267B2', color: '#fff' }}
+                onClick={() => {
+                  const url = encodeURIComponent(window.location.origin + `/movie/${movie.id}`);
+                  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+                }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.target.click(); }}
+              >
+                <span role="img" aria-label="facebook" style={{ marginRight: 6 }}>📘</span> Facebook
+              </button>
+              <button
+                className="trailer-btn"
+                aria-label={`Share ${movie.title} to WhatsApp`}
+                tabIndex={0}
+                style={{ background: '#25D366', color: '#fff' }}
+                onClick={() => {
+                  const url = encodeURIComponent(window.location.origin + `/movie/${movie.id}`);
+                  const text = encodeURIComponent(`Check out ${movie.title} on Betmora!`);
+                  window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+                }}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.target.click(); }}
+              >
+                <span role="img" aria-label="whatsapp" style={{ marginRight: 6 }}>🟢</span> WhatsApp
               </button>
             </div>
             {/* Trailer Modal Overlay */}
@@ -194,7 +281,7 @@ const MovieDetails = () => {
                 <div className="movie-grid">
                   {similar.slice(0, 6).map(sim => (
                     <div key={sim.id} className="movie-card" style={{ minWidth: 180, cursor: 'pointer' }} onClick={() => window.location.href = `/movie/${sim.id}`}>
-                      <img src={sim.poster_path ? `https://image.tmdb.org/t/p/w300/${sim.poster_path}` : '/image.jpg'} alt={sim.title} style={{ borderRadius: 12, width: '100%', marginBottom: 8 }} />
+                      <img src={sim.poster_path ? `https://image.tmdb.org/t/p/w500/${sim.poster_path}` : '/image.jpg'} alt={sim.title} style={{ borderRadius: 12, width: '100%', marginBottom: 8 }} />
                       <h4 style={{ color: '#91F726', fontWeight: 600, fontSize: '1.1rem', margin: '0.5rem 0' }}>{sim.title}</h4>
                       <p style={{ color: '#ccc', fontSize: 13, margin: 0 }}>{sim.release_date?.slice(0, 4)}</p>
                     </div>
@@ -204,8 +291,8 @@ const MovieDetails = () => {
             )}
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
