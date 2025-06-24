@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api';
 import MovieCard from '../components/MovieCard.jsx';
+import SkeletonCard from '../components/SkeletonCard';
 import '../styles/styles.css';
 
 const Watchlist = () => {
@@ -36,7 +37,9 @@ const Watchlist = () => {
             <div className="form-container">
                 <h2>Your Watchlist</h2>
                 {loading ? (
-                    <p>Loading...</p>
+                    <div className="movie-grid">
+                        {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+                    </div>
                 ) : watchlist.length > 0 ? (
                     <div className="movie-grid">
                         {watchlist.map((movie) => (
@@ -49,7 +52,10 @@ const Watchlist = () => {
                         ))}
                     </div>
                 ) : (
-                    <p>watchlist is empty.</p>
+                    <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem' }}>
+                        <div style={{ fontSize: 48, marginBottom: 8 }}>🍿</div>
+                        <div>Your watchlist is empty. Start adding movies to watch later!</div>
+                    </div>
                 )}
             </div>
         </div>

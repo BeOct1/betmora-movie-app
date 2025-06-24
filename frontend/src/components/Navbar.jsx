@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import '../styles/styles.css'; // Ensure you have the correct path to your CSS file 
+import '../styles/styles.css';
 import axios from 'axios';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -96,6 +96,32 @@ const Navbar = () => {
                                 }}
                             >
                                 Watchlist
+                            </Button>
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/favorites"
+                                sx={{
+                                    borderRadius: 2,
+                                    fontWeight: 600,
+                                    px: 2,
+                                    '&:hover': { background: 'rgba(255,152,0,0.1)' }
+                                }}
+                            >
+                                Favorites
+                            </Button>
+                            <Button
+                                color="inherit"
+                                component={Link}
+                                to="/social"
+                                sx={{
+                                    borderRadius: 2,
+                                    fontWeight: 600,
+                                    px: 2,
+                                    '&:hover': { background: 'rgba(255,152,0,0.1)' }
+                                }}
+                            >
+                                Social
                             </Button>
                         </Box>
                     )}

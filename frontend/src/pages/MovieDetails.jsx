@@ -17,6 +17,7 @@ const MovieDetails = () => {
   const [submitting, setSubmitting] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [similar, setSimilar] = useState([]);
+  const [showTrailer, setShowTrailer] = useState(false);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -133,25 +134,63 @@ const MovieDetails = () => {
                 </ul>
               )}
             </div>
-            {/* Trailer if available */}
+            {/* Share Buttons */}
+            <div style={{ display: 'flex', gap: 12, margin: '16px 0' }}>
+              <button
+                className="trailer-btn"
+                style={{ background: '#91F726', color: '#181a15' }}
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.origin + `/movie/${movie.id}`);
+                  alert('Link copied to clipboard!');
+                }}
+              >
+                <span role="img" aria-label="share" style={{ marginRight: 6 }}>🔗</span> Share
+              </button>
+              <button
+                className="trailer-btn"
+                style={{ background: '#1da1f2', color: '#fff' }}
+                onClick={() => {
+                  const url = encodeURIComponent(window.location.origin + `/movie/${movie.id}`);
+                  const text = encodeURIComponent(`Check out ${movie.title} on Betmora!`);
+                  window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+                }}
+              >
+                <span role="img" aria-label="twitter" style={{ marginRight: 6 }}>🐦</span> Share to X
+              </button>
+            </div>
+            {/* Trailer Modal Overlay */}
             {movie.videos?.results?.length > 0 && (
               <div style={{ marginTop: 24 }}>
                 <h3>Trailer</h3>
-                <iframe
-                  width="320"
-                  height="180"
-                  src={`https://www.youtube.com/embed/${movie.videos.results[0].key}`}
-                  title="Movie Trailer"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+                <button
+                  className="trailer-btn"
+                  onClick={() => setShowTrailer(true)}
+                  style={{ marginBottom: 8 }}
+                >
+                  <span role="img" aria-label="play" style={{ marginRight: 6 }}>▶️</span> Watch Trailer
+                </button>
+                {showTrailer && (
+                  <div className="trailer-modal" onClick={() => setShowTrailer(false)}>
+                    <div className="trailer-modal-content" onClick={e => e.stopPropagation()}>
+                      <iframe
+                        width="100%"
+                        height="315"
+                        src={`https://www.youtube.com/embed/${movie.videos.results[0].key}`}
+                        title="Movie Trailer"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                      <button onClick={() => setShowTrailer(false)} style={{ marginTop: 8 }}>Close</button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
-            {/* Similar Movies */}
+            {/* Similar Movies (renamed) */}
             {similar.length > 0 && (
               <div style={{ marginTop: 32 }}>
-                <h3>Similar Movies</h3>
+                <h3>You might also like</h3>
                 <div className="movie-grid">
                   {similar.slice(0, 6).map(sim => (
                     <div key={sim.id} className="movie-card" style={{ minWidth: 180, cursor: 'pointer' }} onClick={() => window.location.href = `/movie/${sim.id}`}>

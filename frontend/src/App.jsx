@@ -10,12 +10,13 @@ import MovieDetails from './pages/MovieDetails';
 import Profile from './pages/Profile';
 import Social from './pages/Social';
 import { useAuth } from './context/AuthContext.jsx';
+import { ToastProvider } from './context/ToastContext.jsx';
 
 const App = () => {
   const { user } = useAuth();
 
   return (
-    <>
+    <ToastProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={user ? <Home /> : <Navigate to="/login" />} />
@@ -27,7 +28,7 @@ const App = () => {
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
         <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
       </Routes>
-    </>
+    </ToastProvider>
   );
 };
 

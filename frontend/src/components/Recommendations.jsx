@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api';
 import '../styles/styles.css';
+import SkeletonCard from './SkeletonCard';
 
 const Recommendations = ({ type }) => {
   const [movies, setMovies] = useState([]);
@@ -30,8 +31,17 @@ const Recommendations = ({ type }) => {
     fetchRecs();
   }, [type]);
 
-  if (loading) return <div className="spinner" style={{ margin: '2rem auto' }}></div>;
-  if (!movies.length) return <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem' }}>No movies found.</div>;
+  if (loading) return (
+    <div className="movie-grid" style={{ margin: '2rem 0' }}>
+      {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+    </div>
+  );
+  if (!movies.length) return (
+    <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem' }}>
+      <div style={{ fontSize: 48, marginBottom: 8 }}>🎬</div>
+      <div>No movies found. Try searching for something else!</div>
+    </div>
+  );
 
   return (
     <div className="movie-grid" style={{ margin: '2rem 0' }}>
@@ -54,19 +64,20 @@ const Recommendations = ({ type }) => {
           <div style={{ color: '#FFD700', fontWeight: 600, fontSize: 14, margin: '4px 0' }}>
             ⭐ {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}
           </div>
-          <button style={{
-            position: 'absolute',
-            bottom: 12,
-            right: 12,
-            background: '#ff9800',
-            color: '#222',
-            border: 'none',
-            borderRadius: 20,
-            padding: '0.3rem 1rem',
-            fontWeight: 700,
-            cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(255,152,0,0.15)'
-          }}
+          <button
+            style={{
+              position: 'absolute',
+              bottom: 12,
+              right: 12,
+              background: '#ff9800',
+              color: '#222',
+              border: 'none',
+              borderRadius: 20,
+              padding: '0.3rem 1rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(255,152,0,0.15)'
+            }}
             onClick={e => { e.stopPropagation(); window.location.href = `/movie/${movie.id}`; }}
           >
             View Details

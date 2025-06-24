@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api';
 import MovieCard from '../components/MovieCard';
+import SkeletonCard from '../components/SkeletonCard';
 import '../styles/styles.css';
 
 const Favorites = () => {
@@ -34,7 +35,9 @@ const Favorites = () => {
       <div className="form-container">
         <h2>Your Favorites</h2>
         {loading ? (
-          <p>Loading...</p>
+          <div className="movie-grid">
+            {Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
         ) : favorites.length > 0 ? (
           <div className="movie-grid">
             {favorites.map(movie => (
@@ -42,7 +45,10 @@ const Favorites = () => {
             ))}
           </div>
         ) : (
-          <p>No favorites yet.</p>
+          <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem' }}>
+            <div style={{ fontSize: 48, marginBottom: 8 }}>❤️</div>
+            <div>No favorites yet. Start adding movies you love!</div>
+          </div>
         )}
       </div>
     </div>
