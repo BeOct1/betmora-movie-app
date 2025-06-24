@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../api';
 import '../styles/styles.css';
 
-const Recommendations = () => {
+const Recommendations = ({ type }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -10,18 +10,28 @@ const Recommendations = () => {
     const fetchRecs = async () => {
       setLoading(true);
       try {
-        const res = await API.get('/recommendations');
-        setMovies(res.data);
+        let res;
+        if (type === 'top-rated') {
+          // Fetch top rated movies from TMDB directly
+          const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+          res = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=1`);
+          const data = await res.json();
+          setMovies(data.results || []);
+        } else {
+          // Default: recommendations from backend
+          res = await API.get('/recommendations');
+          setMovies(res.data);
+        }
       } catch {
         setMovies([]);
       }
       setLoading(false);
     };
     fetchRecs();
-  }, []);
+  }, [type]);
 
   if (loading) return <div className="spinner" style={{ margin: '2rem auto' }}></div>;
-  if (!movies.length) return <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem' }}>No recommendations found.</div>;
+  if (!movies.length) return <div style={{ color: '#aaa', textAlign: 'center', margin: '2rem' }}>No movies found.</div>;
 
   return (
     <div className="movie-grid" style={{ margin: '2rem 0' }}>

@@ -317,9 +317,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .search-bg {
-  background-image: url('/image7.webp');
-  background-size: cover;
-  background-position: center;
+  background: #181a15;
   min-height: 100vh;
   width: 100vw;
   display: flex;
@@ -328,7 +326,6 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: flex-start;
 }
 
-/* Simple Home Page Styles */
 .home-bg-simple {
   min-height: 100vh;
   width: 100%;
@@ -428,9 +425,6 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1000;
 }
 
-/* --- UI Consistency & Interactivity Polish --- */
-
-/* Accent color for all main buttons and links */
 button, .button, .home-btn-simple, .trailer-btn, .highlightButton, .searchButton {
   font-family: 'Poppins', Arial, sans-serif;
   font-size: 1.1rem;
@@ -444,7 +438,6 @@ button:focus, .button:focus, .home-btn-simple:focus, .trailer-btn:focus, .highli
   box-shadow: 0 0 0 3px #91F72655;
 }
 
-/* Consistent accent for links */
 a, a.link, .navbar a {
   color: #91F726;
   text-decoration: none;
@@ -456,7 +449,6 @@ a:hover, a.link:hover, .navbar a:hover {
   text-shadow: 0 0 8px #91F72699;
 }
 
-/* Card hover effect for all cards */
 .movie-card, .MuiCard-root {
   border-radius: 20px !important;
   box-shadow: 0 2px 12px 0 #91F72622;
@@ -762,5 +754,80 @@ body.dark-mode {
   color: #fff;
   transform: scale(1.06);
   box-shadow: 0 4px 32px #91F72699, 0 0 8px #fff;
+}
+
+/* Modern search dialog styles */
+.search-dialog-container {
+  background: linear-gradient(120deg, #181a15 60%, #243b55 100%);
+  border-radius: 24px;
+  box-shadow: 0 8px 48px #91F72633, 0 2px 8px #000;
+  padding: 2.5rem 2rem 2rem 2rem;
+  min-width: 340px;
+  max-width: 480px;
+  width: 100%;
+  min-height: 420px;
+  max-height: 90vh;
+  margin: 3rem auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  animation: popIn 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+  overflow-y: auto;
+}
+.search-dialog-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.search-dialog-row {
+  display: flex;
+  gap: 0.7rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.search-dialog-form input,
+.search-dialog-form select {
+  background: #232325;
+  color: #fff;
+  border: 1.5px solid #91F72644;
+  border-radius: 12px;
+  padding: 0.9rem 1.2rem;
+  font-size: 1.1rem;
+  font-family: 'Poppins', Arial, sans-serif;
+  transition: border 0.2s, box-shadow 0.2s;
+  flex: 1 1 120px;
+  min-width: 90px;
+}
+.search-dialog-form input:focus,
+.search-dialog-form select:focus {
+  border: 2px solid #91F726;
+  box-shadow: 0 0 0 2px #91F72633;
+}
+.search-dialog-form button {
+  background: linear-gradient(90deg, #91F726 60%, #ff9800 100%);
+  color: #181a15;
+  border: none;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.9rem 0;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 16px #91F72633;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.search-dialog-form button:hover {
+  background: linear-gradient(90deg, #ff9800 60%, #91F726 100%);
+  color: #fff;
+  transform: scale(1.06);
+  box-shadow: 0 4px 32px #91F72699, 0 0 8px #fff;
+}
+.no-results {
+  color: #aaa;
+  text-align: center;
+  margin: 2rem 0 0 0;
+  font-size: 1.1rem;
 }
 

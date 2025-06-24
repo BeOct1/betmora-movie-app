@@ -50,44 +50,43 @@ const Search = () => {
 
     return (
         <div className="search-bg">
-            <div className="form-container">
-                <h2>Search Movies</h2>
-                <form onSubmit={handleSearch} style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+            <div className="search-dialog-container">
+                <h2 className="form-dialog-title">Search Movies</h2>
+                <form onSubmit={handleSearch} className="search-dialog-form">
                     <input
                         type="text"
                         placeholder="Enter movie title"
                         value={query}
                         onChange={e => setQuery(e.target.value)}
-                        style={{ flex: 1, minWidth: 180 }}
                     />
-                    <select value={genre} onChange={e => setGenre(e.target.value)}>
-                        <option value="">All Genres</option>
-                        {genres.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
-                    </select>
-                    <input
-                        type="number"
-                        placeholder="Year"
-                        value={year}
-                        onChange={e => setYear(e.target.value)}
-                        min={1900}
-                        max={new Date().getFullYear()}
-                        style={{ width: 90 }}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Min Rating"
-                        value={minRating}
-                        onChange={e => setMinRating(e.target.value)}
-                        min={0}
-                        max={10}
-                        style={{ width: 90 }}
-                    />
-                    <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
-                        <option value="popularity.desc">Most Popular</option>
-                        <option value="release_date.desc">Newest</option>
-                        <option value="vote_average.desc">Top Rated</option>
-                    </select>
-                    <button type="submit" disabled={loading} style={{ minWidth: 100 }}>
+                    <div className="search-dialog-row">
+                        <select value={genre} onChange={e => setGenre(e.target.value)}>
+                            <option value="">All Genres</option>
+                            {genres.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+                        </select>
+                        <input
+                            type="number"
+                            placeholder="Year"
+                            value={year}
+                            onChange={e => setYear(e.target.value)}
+                            min={1900}
+                            max={new Date().getFullYear()}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Min Rating"
+                            value={minRating}
+                            onChange={e => setMinRating(e.target.value)}
+                            min={0}
+                            max={10}
+                        />
+                        <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+                            <option value="popularity.desc">Most Popular</option>
+                            <option value="release_date.desc">Newest</option>
+                            <option value="vote_average.desc">Top Rated</option>
+                        </select>
+                    </div>
+                    <button type="submit" disabled={loading}>
                         {loading ? 'Searching...' : 'Search'}
                     </button>
                 </form>
@@ -95,7 +94,7 @@ const Search = () => {
                     {results.length > 0 ? (
                         results.map((movie) => <MovieCard key={movie.id} movie={movie} />)
                     ) : (
-                        !loading && <p>No results.</p>
+                        !loading && <p className="no-results">No results.</p>
                     )}
                 </div>
             </div>

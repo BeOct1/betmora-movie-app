@@ -26,7 +26,6 @@ const Home = () => {
         <button className="theme-toggle-btn-simple" onClick={toggleTheme} aria-label="Toggle dark/light mode">
           {theme === 'dark' ? '🌞' : '🌙'}
         </button>
-        <img src={logo} alt="BetMora Logo" className="spinning-logo" style={{ marginBottom: 12, marginTop: 8, height: 64, width: 64 }} />
         <span className="movie-icon-simple">🎬</span>
         <h1 className="home-title-simple">Welcome to BeTech Movie Recommendation App | by Bitrus Edward</h1>
         <p className="home-subtitle-simple">Discover, search, and manage your favorite movies in style.</p>
@@ -43,6 +42,13 @@ const Home = () => {
           Recommended For You
         </h2>
         <Recommendations />
+      </section>
+      {/* Top Rated Movies section */}
+      <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '2rem 0' }}>
+        <h2 style={{ color: '#FFD700', textAlign: 'center', fontWeight: 700, fontSize: '2rem', marginBottom: 24, letterSpacing: 1 }}>
+          Top Rated Movies
+        </h2>
+        <Recommendations type="top-rated" />
       </section>
       <footer className="home-footer-simple">
         &copy; {new Date().getFullYear()}, 3MTT Capstone Project | BeTech Solution
