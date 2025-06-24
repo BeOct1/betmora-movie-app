@@ -11,6 +11,7 @@ const Social = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!user || !user._id) return;
     const fetchUsers = async () => {
       setLoading(true);
       const res = await API.get('/users');
@@ -27,7 +28,7 @@ const Social = () => {
     };
     fetchUsers();
     fetchSocial();
-  }, [user._id]);
+  }, [user && user._id]);
 
   const handleFollow = async (id) => {
     await API.post(`/users/${id}/follow`);
@@ -41,6 +42,20 @@ const Social = () => {
   return (
     <div className="form-container">
       <h2>Social</h2>
+      <div style={{ display: 'flex', gap: 16, marginBottom: 24 }}>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <img src="/icons8-facebook-48.png" alt="Facebook" style={{ width: 32, height: 32 }} />
+        </a>
+        <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+          <img src="/icons8-x-50.png" alt="X" style={{ width: 32, height: 32 }} />
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <img src="/icons8-instagram-48.png" alt="Instagram" style={{ width: 32, height: 32 }} />
+        </a>
+        <a href="https://wa.me" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <img src="/icons8-whatsapp-48.png" alt="WhatsApp" style={{ width: 32, height: 32 }} />
+        </a>
+      </div>
       <h3>All Users</h3>
       {loading ? <div>Loading...</div> : (
         <ul>
