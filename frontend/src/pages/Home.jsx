@@ -1,96 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import MovieIcon from '@mui/icons-material/Movie';
+import '../styles/styles.css';
+import Recommendations from '../components/Recommendations';
+import logo from '../../public/logo.svg';
 
 const Home = () => {
   const { user } = useAuth();
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    document.body.classList.toggle('dark-mode', newTheme === 'dark');
+    localStorage.setItem('theme', newTheme);
+  };
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', theme === 'dark');
+  }, [theme]);
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        width: '100%',
-        background: `linear-gradient(rgba(20,30,48,0.85), rgba(36,59,85,0.95)), url('/image.jpg') center/cover no-repeat`,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        px: 2,
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          mb: 4,
-        }}
-      >
-        <MovieIcon sx={{ fontSize: 60, color: '#ff9800', mb: 2 }} />
-        <Typography variant="h3" sx={{ color: '#0E0F12', fontWeight: 700, mb: 2, letterSpacing: 1, maxWidth: 520, lineHeight: 1.2, textAlign: 'center' }}>
-          🎬 Welcome to BeTech Movie Recommendation App by Bitrus Edward
-        </Typography>
-        <Typography variant="h6" sx={{ color: '#0E0F12', mb: 3, fontWeight: 400, maxWidth: 520, lineHeight: 1.5 }}>
-          Discover, search, and manage your favorite movies in style.
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          background: 'rgba(20,30,48,0.85)',
-          borderRadius: 4,
-          boxShadow: '0 8px 32px rgba(20,30,48,0.5)',
-          p: { xs: 3, sm: 6 },
-          mt: 0,
-          mb: 6,
-          textAlign: 'center',
-          maxWidth: 600,
-        }}
-      >
-        <Button
-          component={Link}
-          to="/search"
-          size="large"
-          variant="contained"
-          sx={{
-            background: '#91F726',
-            color: '#0E0F12',
-            fontWeight: 700,
-            borderRadius: 2,
-            px: 4,
-            py: 1.5,
-            fontSize: 20,
-            boxShadow: '0 2px 8px rgba(145,247,38,0.15)',
-            transition: 'background 0.2s, transform 0.2s',
-            '&:hover': { background: '#7ED520', transform: 'scale(1.05)' },
-          }}
-        >
-          Start Exploring
-        </Button>
-      </Box>
+    <div className={`home-bg-simple${theme === 'dark' ? ' dark-mode' : ''}`}> 
+      <div className="home-header-simple">
+        <button className="theme-toggle-btn-simple" onClick={toggleTheme} aria-label="Toggle dark/light mode">
+          {theme === 'dark' ? '🌞' : '🌙'}
+        </button>
+        <img src={logo} alt="BetMora Logo" className="spinning-logo" style={{ marginBottom: 12, marginTop: 8, height: 64, width: 64 }} />
+        <span className="movie-icon-simple">🎬</span>
+        <h1 className="home-title-simple">Welcome to BeTech Movie Recommendation App | by Bitrus Edward</h1>
+        <p className="home-subtitle-simple">Discover, search, and manage your favorite movies in style.</p>
+      </div>
+      <div className="home-action-simple">
+        <Link to="/search" className="home-btn-simple">Start Exploring</Link>
+        {user && (
+          <Link to="/social" className="home-btn-simple" style={{ marginTop: 16 }}>Social</Link>
+        )}
+      </div>
       {/* Movie grid or recommendations can go here */}
-      <Box component="footer" sx={{
-        width: '100%',
-        textAlign: 'center',
-        py: 2,
-        mt: 4,
-        color: '#91F726',
-        fontWeight: 500,
-        fontSize: 16,
-        letterSpacing: 1,
-        background: 'rgba(20,30,48,0.85)',
-        borderTop: '1px solidrgb(53, 55, 50)',
-        position: 'fixed',
-        left: 0,
-        bottom: 0,
-        zIndex: 1000
-      }}>
+      <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '2rem 0' }}>
+        <h2 style={{ color: '#91F726', textAlign: 'center', fontWeight: 700, fontSize: '2rem', marginBottom: 24, letterSpacing: 1 }}>
+          Recommended For You
+        </h2>
+        <Recommendations />
+      </section>
+      <footer className="home-footer-simple">
         &copy; {new Date().getFullYear()}, 3MTT Capstone Project | BeTech Solution
-      </Box>
-    </Box>
+      </footer>
+    </div>
   );
 };
 

@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api';
 import '../styles/styles.css'; // Ensure you have the correct path to your CSS file
-// Ensure you have axios installed and configured for your API requests
+import { PlayCircleFilled } from '@mui/icons-material';
 
 const MovieCard = ({ movie, isInWatchlist, onRemove }) => {
     const navigate = useNavigate();
+    const [trailerUrl, setTrailerUrl] = useState(null);
+    const [showTrailer, setShowTrailer] = useState(false);
 
     const handleAdd = async () => {
         try {
@@ -28,10 +30,21 @@ const MovieCard = ({ movie, isInWatchlist, onRemove }) => {
         navigate(`/movie/${movie.id || movie.tmdbId}`);
     };
 
+    const handleWatchTrailer = async (e) => {
+        e.stopPropagation();
+        try {
+            const res = await API.get(`/movies/${movie.id || movie.tmdbId}/trailer`);
+            setTrailerUrl(res.data.url);
+            setShowTrailer(true);
+        } catch {
+            alert('Trailer not available');
+        }
+    };
+
     return (
         <div
             className="movie-card"
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', position: 'relative' }}
             onClick={handleDetails}
         >
             <img
@@ -43,6 +56,28 @@ const MovieCard = ({ movie, isInWatchlist, onRemove }) => {
                 alt={movie.title}
             />
             <h4>{movie.title}</h4>
+            <button
+                className="trailer-btn"
+                onClick={handleWatchTrailer}
+                style={{
+                    background: '#ff9800',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 20,
+                    padding: '0.4rem 1.2rem',
+                    fontWeight: 700,
+                    marginBottom: 8,
+                    marginTop: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    cursor: 'pointer',
+                    boxShadow: '0 2px 8px rgba(255,152,0,0.15)'
+                }}
+                onMouseDown={e => e.stopPropagation()}
+            >
+                <PlayCircleFilled style={{ marginRight: 4 }} /> Trailer
+            </button>
             {!isInWatchlist ? (
                 <button
                     onClick={(e) => {
@@ -61,6 +96,14 @@ const MovieCard = ({ movie, isInWatchlist, onRemove }) => {
                 >
                     Remove
                 </button>
+            )}
+            {showTrailer && trailerUrl && (
+                <div className="trailer-modal" onClick={e => { e.stopPropagation(); setShowTrailer(false); }}>
+                    <div className="trailer-modal-content" onClick={e => e.stopPropagation()}>
+                        <iframe width="100%" height="315" src={trailerUrl.replace('watch?v=', 'embed/')} title="Trailer" frameBorder="0" allowFullScreen></iframe>
+                        <button onClick={() => setShowTrailer(false)} style={{ marginTop: 8 }}>Close</button>
+                    </div>
+                </div>
             )}
         </div>
     );

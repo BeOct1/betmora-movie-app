@@ -17,10 +17,11 @@ const Login = () => {
   };
 
   return (
-    <div className="login-bg">
-      <div className="form-container">
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
+    <div className="form-dialog-bg">
+      <div className="form-dialog-container">
+        <img src="/logo.svg" alt="Logo" className="spinning-logo" style={{ margin: '0 auto 1rem', display: 'block', height: 56, width: 56 }} />
+        <h2 className="form-dialog-title">Login</h2>
+        <form onSubmit={handleSubmit} className="form-dialog-form">
           <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <button type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>

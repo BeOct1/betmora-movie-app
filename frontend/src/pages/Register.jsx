@@ -19,10 +19,11 @@ const Register = () => {
     };
 
     return (
-        <div className="register-bg">
-            <div className="form-container">
-                <h2>Register</h2>
-                <form onSubmit={handleSubmit}>
+        <div className="form-dialog-bg">
+            <div className="form-dialog-container">
+                <img src="/logo.svg" alt="Logo" className="spinning-logo" style={{ margin: '0 auto 1rem', display: 'block', height: 56, width: 56 }} />
+                <h2 className="form-dialog-title">Register</h2>
+                <form onSubmit={handleSubmit} className="form-dialog-form">
                     <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
                     <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                     <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />

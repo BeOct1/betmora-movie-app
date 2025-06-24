@@ -19,6 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import MovieIcon from '@mui/icons-material/Movie';
+import logo from '../../public/logo.svg';
 
 const Navbar = () => {
     const { user, logout } = useAuth();
@@ -50,6 +51,7 @@ const Navbar = () => {
         }}>
             <Toolbar sx={{ minHeight: 72, px: { xs: 1, sm: 3 } }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                    <img src={logo} alt="BetMora Logo" className="spinning-logo" style={{ height: 48, width: 48, marginRight: 12 }} />
                     <MovieIcon sx={{ fontSize: 36, color: '#ff9800', mr: 1 }} />
                     <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: 1, color: '#fff', mr: 4 }}>
                         BetMora

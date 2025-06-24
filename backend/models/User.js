@@ -64,7 +64,9 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
     trim: true,
-  }
+  },
+  followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
+  following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User', default: [] }],
 }, { timestamps: true });
 
 export default mongoose.model('User', UserSchema);
