@@ -16,31 +16,24 @@ const Search = () => {
     const [sortBy, setSortBy] = useState('popularity.desc');
 
     useEffect(() => {
-        // Fetch genres from TMDB
-        fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${TMDB_API_KEY}`)
-            .then(res => res.json())
-            .then(data => setGenres(data.genres || []));
+        // Fetch genres from backend (proxy to TMDB)
+        API.get('/recommendations/genres')
+            .then(res => setGenres(res.data || []));
     }, []);
 
     const handleSearch = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
-            // Build TMDB query
-            let url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}`;
-            if (query) url += `&query=${encodeURIComponent(query)}`;
-            if (genre) url += `&with_genres=${genre}`;
-            if (year) url += `&primary_release_year=${year}`;
-            if (minRating) url += `&vote_average.gte=${minRating}`;
-            if (sortBy) url += `&sort_by=${sortBy}`;
-            // If searching by title, use /search/movie endpoint
-            if (query) {
-                url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`;
-                if (year) url += `&year=${year}`;
-            }
-            const res = await fetch(url);
-            const data = await res.json();
-            setResults(data.results || []);
+            const params = {
+                query,
+                year,
+                minRating,
+                sortBy,
+            };
+            if (genre) params.with_genres = genre;
+            const res = await API.get('/recommendations/search', { params });
+            setResults(res.data || []);
         } catch {
             setResults([]);
         } finally {

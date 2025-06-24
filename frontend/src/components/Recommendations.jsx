@@ -36,14 +36,41 @@ const Recommendations = ({ type }) => {
   return (
     <div className="movie-grid" style={{ margin: '2rem 0' }}>
       {movies.slice(0, 8).map(movie => (
-        <div className="movie-card" key={movie.id} style={{ minWidth: 180 }}>
+        <div className="movie-card" key={movie.id} style={{ minWidth: 180, position: 'relative', background: '#1a2236', borderRadius: 16, boxShadow: '0 2px 12px rgba(20,30,48,0.15)', transition: 'transform 0.2s', cursor: 'pointer' }}
+          onClick={() => window.location.href = `/movie/${movie.id}`}
+        >
           <img
             src={movie.poster_path ? `https://image.tmdb.org/t/p/w300/${movie.poster_path}` : 'https://via.placeholder.com/300x450?text=No+Image'}
             alt={movie.title}
-            style={{ borderRadius: 12, width: '100%', marginBottom: 8 }}
+            style={{ borderRadius: 12, width: '100%', marginBottom: 8, boxShadow: '0 2px 8px rgba(20,30,48,0.12)' }}
           />
           <h4 style={{ color: '#91F726', fontWeight: 600, fontSize: '1.1rem', margin: '0.5rem 0' }}>{movie.title}</h4>
           <p style={{ color: '#ccc', fontSize: 13, margin: 0 }}>{movie.release_date?.slice(0, 4)}</p>
+          {movie.genre_ids && (
+            <div style={{ color: '#ff9800', fontSize: 12, margin: '4px 0' }}>
+              Genres: {movie.genre_ids.join(', ')}
+            </div>
+          )}
+          <div style={{ color: '#FFD700', fontWeight: 600, fontSize: 14, margin: '4px 0' }}>
+            ⭐ {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}
+          </div>
+          <button style={{
+            position: 'absolute',
+            bottom: 12,
+            right: 12,
+            background: '#ff9800',
+            color: '#222',
+            border: 'none',
+            borderRadius: 20,
+            padding: '0.3rem 1rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(255,152,0,0.15)'
+          }}
+            onClick={e => { e.stopPropagation(); window.location.href = `/movie/${movie.id}`; }}
+          >
+            View Details
+          </button>
         </div>
       ))}
     </div>

@@ -16,17 +16,18 @@ const MovieDetails = () => {
   const [rating, setRating] = useState(5);
   const [submitting, setSubmitting] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [similar, setSimilar] = useState([]);
 
   useEffect(() => {
     const fetchMovie = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}&append_to_response=credits,videos`);
-        if (!res.ok) throw new Error('Failed to fetch movie details');
-        const data = await res.json();
-        setMovie(data);
+        // Use backend proxy for details
+        const res = await API.get(`/recommendations/details/${id}`);
+        setMovie(res.data);
+        setSimilar(res.data.similar?.results || []);
       } catch (err) {
-        setError(err.message);
+        setError('Failed to fetch movie details');
       } finally {
         setLoading(false);
       }
@@ -85,6 +86,9 @@ const MovieDetails = () => {
             <p><strong>Overview:</strong> {movie.overview}</p>
             <p><strong>Runtime:</strong> {movie.runtime} min</p>
             <p><strong>Cast:</strong> {movie.credits?.cast?.slice(0, 5).map(c => c.name).join(', ')}</p>
+            <p><strong>Production:</strong> {movie.production_companies?.map(c => c.name).join(', ')}</p>
+            <p><strong>Budget:</strong> {movie.budget ? `$${movie.budget.toLocaleString()}` : 'N/A'}</p>
+            <p><strong>Revenue:</strong> {movie.revenue ? `$${movie.revenue.toLocaleString()}` : 'N/A'}</p>
             {/* Ratings/reviews */}
             <div style={{ marginTop: 24 }}>
               <h3>User Ratings & Reviews</h3>
@@ -142,6 +146,21 @@ const MovieDetails = () => {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
+              </div>
+            )}
+            {/* Similar Movies */}
+            {similar.length > 0 && (
+              <div style={{ marginTop: 32 }}>
+                <h3>Similar Movies</h3>
+                <div className="movie-grid">
+                  {similar.slice(0, 6).map(sim => (
+                    <div key={sim.id} className="movie-card" style={{ minWidth: 180, cursor: 'pointer' }} onClick={() => window.location.href = `/movie/${sim.id}`}>
+                      <img src={sim.poster_path ? `https://image.tmdb.org/t/p/w300/${sim.poster_path}` : '/image.jpg'} alt={sim.title} style={{ borderRadius: 12, width: '100%', marginBottom: 8 }} />
+                      <h4 style={{ color: '#91F726', fontWeight: 600, fontSize: '1.1rem', margin: '0.5rem 0' }}>{sim.title}</h4>
+                      <p style={{ color: '#ccc', fontSize: 13, margin: 0 }}>{sim.release_date?.slice(0, 4)}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>

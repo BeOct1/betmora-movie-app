@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import MovieIcon from '@mui/icons-material/Movie';
-import logo from '../../public/logo.svg';
+
 
 const Navbar = () => {
     const { user, logout } = useAuth();

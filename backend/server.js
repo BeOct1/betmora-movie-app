@@ -9,6 +9,7 @@ import watchlistRoutes from './routes/watchlistRoutes.js';
 import movieRoutes from './routes/movieRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
 import recommendationRoutes from './routes/recommendationRoutes.js';
+import favoriteRoutes from './routes/favoriteRoutes.js';
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use('/api/watchlist', watchlistRoutes);
 app.use('/api/movies', movieRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/recommendations', recommendationRoutes);
+app.use('/api/favorites', favoriteRoutes);
 
 // DB Connection
 mongoose.connect(process.env.MONGO_URI)

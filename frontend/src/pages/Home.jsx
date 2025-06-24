@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import '../styles/styles.css';
 import Recommendations from '../components/Recommendations';
-import logo from '../../public/logo.svg';
 
 const Home = () => {
   const { user } = useAuth();
