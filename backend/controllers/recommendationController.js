@@ -6,6 +6,9 @@ import Review from '../models/Review.js';
 import Watchlist from '../models/Watchlist.js';
 import axios from 'axios';
 
+// DEBUG: Log TMDB API key to verify it's loaded
+console.log('TMDB_API_KEY:', process.env.TMDB_API_KEY);
+
 // Helper: fetch movie details from TMDB
 async function fetchMovieDetails(movieIds) {
   const apiKey = process.env.TMDB_API_KEY;

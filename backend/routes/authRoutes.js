@@ -17,6 +17,8 @@ router.post('/login', loginUser);
 router.post('/logout', logoutUser);
 router.get('/me', authMiddleware, getCurrentUser);
 router.put('/profile', authMiddleware, updateProfile);
+// Example: Protect more routes
+// router.delete('/user/:id', authMiddleware, deleteUser);
 
 export default router;
 // routes/authRoutes.js

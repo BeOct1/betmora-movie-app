@@ -1,0 +1,14 @@
+{
+  "appTitle": "BeMora|Movie App",
+  "login": "Login",
+  "register": "Register",
+  "logout": "Logout",
+  "search": "Search",
+  "favorites": "Favorites",
+  "watchlist": "Watchlist",
+  "reviews": "Reviews",
+  "profile": "Profile",
+  "recommendations": "Recommendations",
+  "welcome": "Welcome to BeMora|Movie App!",
+  "googleLogin": "Sign in with Google"
+}

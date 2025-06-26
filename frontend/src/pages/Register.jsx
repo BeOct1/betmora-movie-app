@@ -1,38 +1,124 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
-import '../styles/styles.css';
+import React, { useState } from "react";
+import userApi from "../api/modules/user.api";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-    const { register, loading } = useAuth();
-    const navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+    displayName: ""
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!name || !username || !email || !password) return alert('All fields are required');
-        await register(name, username, email, password);
-        navigate('/'); // Changed from /dashboard to /
-    };
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-    return (
-        <div className="form-dialog-bg">
-            <div className="form-dialog-container">
-                <img src="/logo.svg" alt="Logo" className="spinning-logo" style={{ margin: '0 auto 1rem', display: 'block', height: 56, width: 56 }} />
-                <h2 className="form-dialog-title">Register</h2>
-                <form onSubmit={handleSubmit} className="form-dialog-form">
-                    <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                    <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                    <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <button type="submit" disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>
-                </form>
-            </div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    const { response, err } = await userApi.signup(form);
+    setLoading(false);
+    if (response) {
+      navigate("/login");
+    } else {
+      setError(err?.response?.data?.message || "Registration failed");
+    }
+  };
+
+  return (
+    <div className="auth-container">
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={form.username}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="displayName"
+          placeholder="Display Name"
+          value={form.displayName}
+          onChange={handleChange}
+          required
+        />
+        <div style={{ position: 'relative' }}>
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+            style={{ paddingRight: '2.5rem' }}
+          />
+          <button
+            type="button"
+            style={{
+              position: 'absolute',
+              right: '0.5rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: '#888',
+              fontSize: '1rem',
+            }}
+            onClick={() => setShowPassword((v) => !v)}
+            tabIndex={-1}
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </button>
         </div>
-    );
+        <div style={{ position: 'relative' }}>
+          <input
+            type={showConfirm ? "text" : "password"}
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            required
+            style={{ paddingRight: '2.5rem' }}
+          />
+          <button
+            type="button"
+            style={{
+              position: 'absolute',
+              right: '0.5rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: '#888',
+              fontSize: '1rem',
+            }}
+            onClick={() => setShowConfirm((v) => !v)}
+            tabIndex={-1}
+            aria-label={showConfirm ? "Hide password" : "Show password"}
+          >
+            {showConfirm ? "🙈" : "👁️"}
+          </button>
+        </div>
+        <button type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
+        {error && <div className="error">{error}</div>}
+      </form>
+    </div>
+  );
 };
 
 export default Register;

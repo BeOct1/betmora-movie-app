@@ -1,3 +1,4 @@
+console.log('TMDB_API_KEY:', process.env.TMDB_API_KEY);
 import express from 'express';
 import authMiddleware from '../middleware/authMiddleware.js';
 import { createRequire } from 'module';
