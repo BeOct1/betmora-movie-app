@@ -2,6 +2,7 @@
   "name": "bemora-movie-app-root",
   "description": "Root package for BeMora|Movie App project.",
   "dependencies": {
+    "@sentry/node": "^9.32.0",
     "axios": "^1.10.0",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
