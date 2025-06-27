@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Provider } from "react-redux";
 import store from './redux/store';
-import * as serviceWorker from './service-worker';
+import reportWebVitals from './reportWebVitals';
 //import * as Sentry from "@sentry/react";
 // import i18n from "./i18n";
 
@@ -16,12 +16,16 @@ import "@fontsource/roboto/700.css";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+
+  
   // <React.StrictMode>
+  <React.StrictMode>
   <Provider store={store}>
     <App />
   </Provider>
+  </React.StrictMode>
   // </React.StrictMode>
 );
+// </React.StrictMode>
+reportWebVitals();
 
-// Register service worker for PWA support
-serviceWorker.register();
