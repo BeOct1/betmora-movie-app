@@ -1,3 +1,4 @@
+// vscode-disable-schema-validation
 {
   "env": {
     "browser": true,
