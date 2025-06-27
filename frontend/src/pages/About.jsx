@@ -12,7 +12,7 @@ const About = () => (
     <img src="/logo512.png" alt="BeMora Logo" style={{ width: 96, height: 96, marginBottom: 20 }} />
     <h2 style={{ color: "#1a223f", margin: 0 }}>About BeMora|Movie App</h2>
     <p style={{ color: "#444", maxWidth: 500, textAlign: "center", marginTop: 16 }}>
-      BeMora|Movie App is a modern, full-featured movie recommendation platform. Discover trending movies, manage your favorites and watchlist, write reviews, and get personalized recommendations. Enjoy a clean, responsive UI and advanced features like social login, PWA support, and more!
+      BeMora|Movie App is a modern, full-featured movie recommendation platform, where users Discover trending movies, manage favorites and watchlist, write reviews, and get personalized recommendations. Enjoy a clean, responsive UI and advanced features like social login, PWA support, and more!
     </p>
   </div>
 );

@@ -4,10 +4,10 @@ import App from './App';
 import { Provider } from "react-redux";
 import store from './redux/store';
 import * as serviceWorker from './service-worker';
-import * as Sentry from "@sentry/react";
+//import * as Sentry from "@sentry/react";
 // import i18n from "./i18n";
 
-Sentry.init({ dsn: "YOUR_SENTRY_DSN" });
+//Sentry.init({ dsn: "YOUR_SENTRY_DSN" });
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";

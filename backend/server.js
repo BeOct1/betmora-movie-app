@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import * as Sentry from '@sentry/node';
+// import * as Sentry from '@sentry/node';
 
 import authRoutes from './routes/authRoutes.js';
 import watchlistRoutes from './routes/watchlistRoutes.js';
@@ -22,11 +22,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Sentry error tracking
-Sentry.init({
-  dsn: process.env.SENTRY_DSN || 'YOUR_SENTRY_DSN',
-  tracesSampleRate: 1.0,
-});
-app.use(Sentry.Handlers.requestHandler());
+// Sentry.init({
+//  dsn: process.env.SENTRY_DSN || 'YOUR_SENTRY_DSN',
+// tracesSampleRate: 1.0,
+//});
+//app.use(Sentry.Handlers.requestHandler());
 
 // Middleware
 app.use(cors({
@@ -64,7 +64,7 @@ mongoose.connect(process.env.MONGO_URI)
   .catch(err => console.error('Mongo connection error:', err));
 
 // Error handling
-app.use(Sentry.Handlers.errorHandler());
+// app.use(Sentry.Handlers.errorHandler());
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Internal Server Error' });
